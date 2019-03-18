@@ -1,0 +1,955 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="github-stars分类"><meta name="keywords" content=""><meta name="author" content="JunDa Ren (Richard Ren)"><meta name="copyright" content="JunDa Ren (Richard Ren)"><title>github-stars分类 | RJD's Blog</title><link rel="shortcut icon" href="/r-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.6.0"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#md"><span class="toc-number">1.</span> <span class="toc-text"> M&amp;D</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#deep-learning"><span class="toc-number">1.1.</span> <span class="toc-text"> deep learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#machine-learning"><span class="toc-number">1.2.</span> <span class="toc-text"> Machine learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-number">1.3.</span> <span class="toc-text"> Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#papers"><span class="toc-number">1.4.</span> <span class="toc-text"> Papers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#others"><span class="toc-number">1.5.</span> <span class="toc-text"> Others</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#frameworks"><span class="toc-number">2.</span> <span class="toc-text"> FrameWorks</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tensorflow"><span class="toc-number">2.1.</span> <span class="toc-text"> TensorFlow</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytoch"><span class="toc-number">2.2.</span> <span class="toc-text"> Pytoch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keras"><span class="toc-number">2.3.</span> <span class="toc-text"> Keras</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mxnet"><span class="toc-number">2.4.</span> <span class="toc-text"> MXnet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastai"><span class="toc-number">2.5.</span> <span class="toc-text"> fastai</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tools"><span class="toc-number">2.6.</span> <span class="toc-text"> Tools</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cv"><span class="toc-number">3.</span> <span class="toc-text"> CV</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#classification"><span class="toc-number">3.1.</span> <span class="toc-text"> Classification</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#detectionsegment"><span class="toc-number">3.2.</span> <span class="toc-text"> Detection&amp;Segment</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#detection"><span class="toc-number">3.2.1.</span> <span class="toc-text"> Detection</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#face"><span class="toc-number">3.3.</span> <span class="toc-text"> Face</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ocr"><span class="toc-number">3.4.</span> <span class="toc-text"> OCR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#normalization"><span class="toc-number">3.5.</span> <span class="toc-text"> Normalization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gan"><span class="toc-number">3.6.</span> <span class="toc-text"> GAN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#opencv"><span class="toc-number">3.7.</span> <span class="toc-text"> OpenCV</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#others-2"><span class="toc-number">3.8.</span> <span class="toc-text"> others</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#code"><span class="toc-number">4.</span> <span class="toc-text"> Code</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#algorithm"><span class="toc-number">4.1.</span> <span class="toc-text"> Algorithm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#comprehensive"><span class="toc-number">4.2.</span> <span class="toc-text"> Comprehensive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python"><span class="toc-number">4.3.</span> <span class="toc-text"> Python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cc"><span class="toc-number">4.4.</span> <span class="toc-text"> C/C++</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java"><span class="toc-number">4.5.</span> <span class="toc-text"> Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js"><span class="toc-number">4.6.</span> <span class="toc-text"> Js</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#development"><span class="toc-number">5.</span> <span class="toc-text"> development</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ios"><span class="toc-number">5.1.</span> <span class="toc-text"> iOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#weixin"><span class="toc-number">5.2.</span> <span class="toc-text"> weixin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chrome-plugin"><span class="toc-number">5.3.</span> <span class="toc-text"> chrome-plugin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#front-end"><span class="toc-number">5.4.</span> <span class="toc-text"> front-end</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nlp"><span class="toc-number">6.</span> <span class="toc-text"> NLP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tools-2"><span class="toc-number">7.</span> <span class="toc-text"> Tools</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#job"><span class="toc-number">7.1.</span> <span class="toc-text"> Job</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#github"><span class="toc-number">7.2.</span> <span class="toc-text"> github</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#project"><span class="toc-number">7.3.</span> <span class="toc-text"> project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vscode"><span class="toc-number">7.4.</span> <span class="toc-text"> VScode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kaggle"><span class="toc-number">7.5.</span> <span class="toc-text"> Kaggle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#others-3"><span class="toc-number">7.6.</span> <span class="toc-text"> Others</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#just-fun"><span class="toc-number">7.7.</span> <span class="toc-text"> Just Fun</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars2.githubusercontent.com/u/8386277?s=460&amp;v=4"></div><div class="author-info__name text-center">JunDa Ren (Richard Ren)</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">17</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">12</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4gy1ftgcxsy69qj22bc1jknpg.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">RJD's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">github-stars分类</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-17</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/github/">github</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">3,714</span><span class="post-meta__separator">|</span><span>阅读时长: 18 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>由于GitHub Stars中没有分类功能，但是本人又贪婪的star了很多的东西，特此开辟一篇文章，将star区进行分类，本文不定期更新。</p>
+<p>github_star地址：<a href="https://github.com/rjdCS?tab=stars" target="_blank" rel="noopener">https://github.com/rjdCS?tab=stars</a></p>
+<h1 id="md"><a class="markdownIt-Anchor" href="#md"></a> M&amp;D</h1>
+<h2 id="deep-learning"><a class="markdownIt-Anchor" href="#deep-learning"></a> deep learning</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/kmario23/deep-learning-drizzle" target="_blank" rel="noopener">kmario23 / deep-learning-drizzle</a>]<br>
+Drench yourself in Deep Learning, Reinforcement Learning, Machine Learning, Computer Vision, and NLP by learning from these exciting lectures!!</p>
+</li>
+<li>
+<p>[<a href="https://github.com/dformoso/deeplearning-mindmap" target="_blank" rel="noopener">dformoso / deeplearning-mindmap</a>]<br>
+A mindmap summarising Deep Learning concepts.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/d2l-ai/d2l-zh" target="_blank" rel="noopener">d2l-ai / d2l-zh</a>]<br>
+《动手学深度学习》，英文版即伯克利深度学习（STAT 157，2019春）教材。面向中文读者、能运行、可讨论。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/fchollet/deep-learning-with-python-notebooks" target="_blank" rel="noopener">fchollet / deep-learning-with-python-notebooks</a>]<br>
+Jupyter notebooks for the code samples of the book “Deep Learning with Python”</p>
+</li>
+<li>
+<p>[<a href="https://github.com/sharedeeply/dl_book" target="_blank" rel="noopener">sharedeeply / dl_book</a>]<br>
+This is deep learning book training camp.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/machinelearningmindset/deep-learning-ocean" target="_blank" rel="noopener">machinelearningmindset / deep-learning-ocean</a>]<br>
+📡 All You Need to Know About Deep Learning - A kick-starter</p>
+</li>
+<li>
+<p>[<a href="https://github.com/tigerneil/neural-networks-and-deep-learning-zh-cn" target="_blank" rel="noopener">tigerneil / neural-networks-and-deep-learning-zh-cn</a>]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/fengdu78/deeplearning_ai_books" target="_blank" rel="noopener">fengdu78 / deeplearning_ai_books</a>]<br>
+<a href="http://deeplearning.ai" target="_blank" rel="noopener">deeplearning.ai</a>（吴恩达老师的深度学习课程笔记及资源）</p>
+</li>
+<li>
+<p>[<a href="https://github.com/exacity/deeplearningbook-chinese" target="_blank" rel="noopener">exacity / deeplearningbook-chinese</a>]<br>
+Deep Learning Book Chinese Translation</p>
+</li>
+<li>
+<p>[<a href="https://github.com/scutan90/DeepLearning-500-questions" target="_blank" rel="noopener">scutan90 / DeepLearning-500-questions</a>]<br>
+深度学习500问，以问答形式对常用的概率知识、线性代数、机器学习、深度学习、计算机视觉等热点问题进行阐述，以帮助自己及有需要的读者。 全书分为18个章节，近30万字。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/nick6918/MyDeepLearning" target="_blank" rel="noopener">nick6918 / MyDeepLearning</a>]<br>
+A deep learning library to provide algs in pure Numpy or Tensorflow.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/exacity/simplified-deeplearning" target="_blank" rel="noopener">exacity / simplified-deeplearning</a>]<br>
+Simplified implementations of deep learning related works</p>
+</li>
+<li>
+<p>[<a href="https://github.com/apachecn/AiLearning" target="_blank" rel="noopener">apachecn / AiLearning</a>]<br>
+AiLearning: 机器学习 - MachineLearning - ML、深度学习 - DeepLearning - DL、自然语言处理 NLP</p>
+</li>
+</ul>
+<h2 id="machine-learning"><a class="markdownIt-Anchor" href="#machine-learning"></a> Machine learning</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/apachecn/hands-on-ml-zh" target="_blank" rel="noopener">apachecn / hands-on-ml-zh</a>]<br>
+📖 [译] Sklearn 与 TensorFlow 机器学习实用指南</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ZuzooVn/machine-learning-for-software-engineers" target="_blank" rel="noopener">ZuzooVn / machine-learning-for-software-engineers</a>]<br>
+A complete daily plan for studying to become a machine learning engineer.</p>
+</li>
+<li>
+<p><a href="https://github.com/MLEveryday/100-Days-Of-ML-Code" target="_blank" rel="noopener">MLEveryday / 100-Days-Of-ML-Code</a>]<br>
+100-Days-Of-ML-Code中文版</p>
+</li>
+<li>
+<p>[<a href="https://github.com/josephmisiti/awesome-machine-learning" target="_blank" rel="noopener">josephmisiti / awesome-machine-learning</a>]<br>
+A curated list of awesome Machine Learning frameworks, libraries and software.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/GokuMohandas/practicalAI" target="_blank" rel="noopener">GokuMohandas / practicalAI</a>]<br>
+📚 A practical approach to learning and using machine learning.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/fengdu78/lihang-code" target="_blank" rel="noopener">fengdu78 / lihang-code</a>]<br>
+《统计学习方法》的代码实现</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Dod-o/Statistical-Learning-Method_Code" target="_blank" rel="noopener">Dod-o / Statistical-Learning-Method_Code</a>]<br>
+手写实现李航《统计学习方法》书中全部算法</p>
+</li>
+<li>
+<p>[<a href="https://github.com/wzyonggege/statistical-learning-method" target="_blank" rel="noopener">wzyonggege / statistical-learning-method</a>]<br>
+《统计学习方法》笔记-基于Python算法实现</p>
+</li>
+<li>
+<p>[<a href="https://github.com/WenDesi/lihang_book_algorithm" target="_blank" rel="noopener"> WenDesi / lihang_book_algorithm</a>]<br>
+致力于将李航博士《统计学习方法》一书中所有算法实现一遍</p>
+</li>
+<li>
+<p>[<a href="https://github.com/lijin-THU/notes-machine-learning" target="_blank" rel="noopener">lijin-THU / notes-machine-learning</a>]<br>
+鉴于我没有时间继续写这个东西，这个项目暂时废止</p>
+</li>
+<li>
+<p>[<a href="https://github.com/carefree0910/MachineLearning" target="_blank" rel="noopener">carefree0910 / MachineLearning</a>]<br>
+Machine learning algorithms implemented by pure numpy</p>
+</li>
+<li>
+<p>[<a href="https://github.com/DeqianBai/Hands-on-Machine-Learning" target="_blank" rel="noopener">DeqianBai / Hands-on-Machine-Learning</a>]<br>
+A series of Jupyter notebooks with Chinese comment that walk you through the fundamentals of Machine Learning and Deep Learning in python using Scikit-Learn and TensorFlow.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/kaleko/CourseraML" target="_blank" rel="noopener">kaleko / CourseraML</a>]<br>
+I took Andrew Ng’s Machine Learning course on Coursera and did the homework assigments… but, on my own in python because I love jupyter notebooks!</p>
+</li>
+<li>
+<p>[<a href="https://github.com/MorvanZhou/tutorials" target="_blank" rel="noopener">MorvanZhou / tutorials</a>]<br>
+机器学习相关教程</p>
+</li>
+<li>
+<p>[<a href="https://github.com/zlotus/notes-LSJU-machine-learning" target="_blank" rel="noopener">zlotus / notes-LSJU-machine-learning</a>]<br>
+机器学习笔记</p>
+</li>
+<li>
+<p>[<a href="https://github.com/susanli2016/Machine-Learning-with-Python" target="_blank" rel="noopener">susanli2016 / Machine-Learning-with-Python</a>]<br>
+Python code for common Machine Learning Algorithms</p>
+</li>
+</ul>
+<h2 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h2>
+<ul>
+<li>[<a href="https://github.com/Smilexuhc/Data-Competition-TopSolution" target="_blank" rel="noopener">Smilexuhc / Data-Competition-TopSolution</a>]<br>
+Data competition Top Solution 数据竞赛top解决方案开源整理</li>
+</ul>
+<h2 id="papers"><a class="markdownIt-Anchor" href="#papers"></a> Papers</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/alexander-rakhlin/ICIAR2018" target="_blank" rel="noopener">alexander-rakhlin / ICIAR2018</a>]<br>
+Our solution for ICIAR 2018 Grand Challenge</p>
+</li>
+<li>
+<p>[<a href="https://github.com/terryum/awesome-deep-learning-papers" target="_blank" rel="noopener">terryum / awesome-deep-learning-papers</a>]<br>
+The most cited deep learning papers</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amusi/daily-paper-computer-vision" target="_blank" rel="noopener">amusi / daily-paper-computer-vision</a>]<br>
+记录每天整理的计算机视觉/深度学习/机器学习相关方向的论文</p>
+</li>
+<li>
+<p>[<a href="https://github.com/SnailTyan/deep-learning-papers-translation" target="_blank" rel="noopener">SnailTyan / deep-learning-papers-translation</a>]<br>
+深度学习论文翻译，包括分类论文，检测论文等</p>
+</li>
+<li>
+<p>[<a href="https://github.com/zziz/pwc" target="_blank" rel="noopener">zziz / pwc</a>]<br>
+Papers with code. Sorted by stars. Updated weekly.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/floodsung/Deep-Learning-Papers-Reading-Roadmap" target="_blank" rel="noopener">floodsung / Deep-Learning-Papers-Reading-Roadmap</a>]<br>
+Deep Learning papers reading roadmap for anyone who are eager to learn this amazing tech!</p>
+</li>
+</ul>
+<h2 id="others"><a class="markdownIt-Anchor" href="#others"></a> Others</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/benhamner/Metrics" target="_blank" rel="noopener">benhamner / Metrics</a>]<br>
+Machine learning evaluation metrics, implemented in Python, R, Haskell, and MATLAB / Octave</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ufoym/deepo" target="_blank" rel="noopener">ufoym / deepo</a>]<br>
+A series of Docker images (and their generator) that allows you to quickly set up your deep learning research environment.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Vooban/Autoencoder-TensorBoard-t-SNE" target="_blank" rel="noopener">Vooban / Autoencoder-TensorBoard-t-SNE</a>]<br>
+Plugging TensorBoard in an autoencoder on the MNIST dataset for demonstrating t-SNE embeddings visualization of unsupervised machine learning.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/donnemartin/data-science-ipython-notebooks" target="_blank" rel="noopener">donnemartin / data-science-ipython-notebooks</a>]<br>
+Data science Python notebooks: Deep learning (TensorFlow, Theano, Caffe, Keras), scikit-learn, Kaggle, big data (Spark, Hadoop MapReduce, HDFS), matplotlib, pandas, NumPy, SciPy, Python essentials,…</p>
+</li>
+<li>
+<p>[<a href="https://github.com/junxiaosong/AlphaZero_Gomoku" target="_blank" rel="noopener">junxiaosong / AlphaZero_Gomoku</a>]<br>
+An implementation of the AlphaZero algorithm for Gomoku (also called Gobang or Five in a Row)</p>
+</li>
+<li>
+<p>[<a href="https://github.com/AIBluefisher/ComputerVisionDatasets" target="_blank" rel="noopener">AIBluefisher / ComputerVisionDatasets</a>]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/bulutyazilim/awesome-datascience" target="_blank" rel="noopener">bulutyazilim / awesome-datascience</a>]<br>
+📝 An awesome Data Science repository to learn and apply for real world problems.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jindongwang/transferlearning" target="_blank" rel="noopener">jindongwang / transferlearning</a>]<br>
+Everything about Transfer Learning and Domain Adaptation–迁移学习</p>
+</li>
+</ul>
+<h1 id="frameworks"><a class="markdownIt-Anchor" href="#frameworks"></a> FrameWorks</h1>
+<h2 id="tensorflow"><a class="markdownIt-Anchor" href="#tensorflow"></a> TensorFlow</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/sjchoi86/Tensorflow-101" target="_blank" rel="noopener">sjchoi86 / Tensorflow-101</a>]<br>
+TensorFlow Tutorials</p>
+</li>
+<li>
+<p>[<a href="https://github.com/aymericdamien/TensorFlow-Examples" target="_blank" rel="noopener">aymericdamien / TensorFlow-Examples</a>]<br>
+TensorFlow Tutorial and Examples for Beginners with Latest APIs</p>
+</li>
+<li>
+<p>[<a href="https://github.com/machinelearningmindset/TensorFlow-Course" target="_blank" rel="noopener">machinelearningmindset / TensorFlow-Course</a>]<br>
+Simple and ready-to-use tutorials for TensorFlow</p>
+</li>
+<li>
+<p>[<a href="https://github.com/hzy46/Deep-Learning-21-Examples" target="_blank" rel="noopener">hzy46 / Deep-Learning-21-Examples</a>]<br>
+《21个项目玩转深度学习———基于TensorFlow的实践详解》配套代码</p>
+</li>
+<li>
+<p>[<a href="https://github.com/luyishisi/tensorflow" target="_blank" rel="noopener">luyishisi / tensorflow</a>]<br>
+使用谷歌开源的TensorFlow进行一系列的训练实践</p>
+</li>
+<li>
+<p>[<a href="https://github.com/dragen1860/TensorFlow2.0Tutorials" target="_blank" rel="noopener">dragen1860 / TensorFlow2.0Tutorials</a>]<br>
+TensorFlow 2.0 Tutorials and Examples, CNN, RNN, GAN tutorials, etc. TF 2.0版入门实例代码，实战教程。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/tensorflow/models" target="_blank" rel="noopener">tensorflow / models</a>]<br>
+Models and examples built with TensorFlow</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amusi/TensorFlow-From-Zero-To-One" target="_blank" rel="noopener">amusi / TensorFlow-From-Zero-To-One</a>]<br>
+记录自己学习TensorFlow的笔记和代码</p>
+</li>
+<li>
+<p>[<a href="https://github.com/astorfi/TensorFlow-World" target="_blank" rel="noopener">astorfi / TensorFlow-World</a>]<br>
+🌎 Simple and ready-to-use tutorials for TensorFlow</p>
+</li>
+<li>
+<p>[<a href="https://github.com/chiphuyen/stanford-tensorflow-tutorials" target="_blank" rel="noopener">chiphuyen / stanford-tensorflow-tutorials</a>]<br>
+This repository contains code examples for the Stanford’s course: TensorFlow for Deep Learning Research.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/yunjey/davian-tensorflow" target="_blank" rel="noopener">yunjey / davian-tensorflow</a>]<br>
+tensorflow tutorial for beginner to intermediate</p>
+</li>
+</ul>
+<h2 id="pytoch"><a class="markdownIt-Anchor" href="#pytoch"></a> Pytoch</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/yunjey/pytorch-tutorial" target="_blank" rel="noopener">yunjey / pytorch-tutorial</a>]<br>
+PyTorch Tutorial for Deep Learning Researchers</p>
+</li>
+<li>
+<p>[<a href="https://github.com/L1aoXingyu/pytorch-beginner" target="_blank" rel="noopener">L1aoXingyu / pytorch-beginner</a>]<br>
+pytorch tutorial for beginners</p>
+</li>
+<li>
+<p>[<a href="https://github.com/zhouyongxiu/PytorchExample" target="_blank" rel="noopener">zhouyongxiu / PytorchExample</a>]<br>
+Pytorch训练自己的数据的示例代码</p>
+</li>
+<li>
+<p>[<a href="https://github.com/bharathgs/Awesome-pytorch-list" target="_blank" rel="noopener">bharathgs / Awesome-pytorch-list</a>]<br>
+A comprehensive list of pytorch related content on github,such as different models,implementations,helper libraries,tutorials etc.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ritchieng/the-incredible-pytorch" target="_blank" rel="noopener">ritchieng / the-incredible-pytorch</a>]<br>
+The Incredible PyTorch: a curated list of tutorials, papers, projects, communities and more relating to PyTorch.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/L1aoXingyu/code-of-learn-deep-learning-with-pytorch" target="_blank" rel="noopener">L1aoXingyu / code-of-learn-deep-learning-with-pytorch</a>]<br>
+This is code of book “Learn Deep Learning with PyTorch”</p>
+</li>
+<li>
+<p>[<a href="https://github.com/MorvanZhou/PyTorch-Tutorial" target="_blank" rel="noopener">MorvanZhou / PyTorch-Tutorial</a>]<br>
+Build your neural network easy and fast</p>
+</li>
+<li>
+<p>[<a href="https://github.com/spro/practical-pytorch" target="_blank" rel="noopener">spro / practical-pytorch</a>]<br>
+PyTorch tutorials demonstrating modern techniques with readable code</p>
+</li>
+<li>
+<p>[<a href="https://github.com/zergtant/pytorch-handbook" target="_blank" rel="noopener">zergtant / pytorch-handbook</a>]<br>
+pytorch handbook是一本开源的书籍，目标是帮助那些希望和使用PyTorch进行深度学习开发和研究的朋友快速入门，其中包含的Pytorch教程全部通过测试保证可以成功运行</p>
+</li>
+<li>
+<p>[<a href="https://github.com/creafz/pytorch-cnn-finetune" target="_blank" rel="noopener">creafz / pytorch-cnn-finetune</a>]<br>
+Fine-tune pretrained Convolutional Neural Networks with PyTorch</p>
+</li>
+<li>
+<p>[<a href="https://github.com/spytensor/pytorch-image-classification" target="_blank" rel="noopener">spytensor / pytorch-image-classification</a>]<br>
+use pytorch to do image classfiication tasks</p>
+</li>
+<li>
+<p>[<a href="https://github.com/tensor-yu/PyTorch_Tutorial" target="_blank" rel="noopener">tensor-yu / PyTorch_Tutorial</a>]<br>
+《Pytorch模型训练实用教程》中配套代码</p>
+</li>
+<li>
+<p>[<a href="https://github.com/youansheng/torchcv" target="_blank" rel="noopener">youansheng / torchcv</a>]<br>
+A PyTorch-Based Framework for Deep Learning in Computer Vision</p>
+</li>
+<li>
+<p>[<a href="https://github.com/hunkim/PyTorchZeroToAll" target="_blank" rel="noopener">hunkim / PyTorchZeroToAll</a>]<br>
+Simple PyTorch Tutorials Zero to ALL!</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Spandan-Madan/Pytorch_fine_tuning_Tutorial" target="_blank" rel="noopener">Spandan-Madan / Pytorch_fine_tuning_Tutorial</a>]<br>
+A short tutorial on performing fine tuning or transfer learning in PyTorch.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/pytorch/tnt" target="_blank" rel="noopener">pytorch / tnt</a>]<br>
+Simple tools for logging and visualizing, loading and training</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Cadene/pretrained-models.pytorch" target="_blank" rel="noopener">Cadene / pretrained-models.pytorch</a>]<br>
+Pretrained ConvNets for pytorch: NASNet, ResNeXt, ResNet, InceptionV4, InceptionResnetV2, Xception, DPN, etc.</p>
+</li>
+</ul>
+<h2 id="keras"><a class="markdownIt-Anchor" href="#keras"></a> Keras</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/gaoxuesong/KerasNotebook" target="_blank" rel="noopener">gaoxuesong / KerasNotebook</a>]<br>
+Keras 快速上手——基于 Python 的深度学习实战</p>
+</li>
+<li>
+<p>[<a href="https://github.com/erhwenkuo/deep-learning-with-keras-notebooks" target="_blank" rel="noopener">erhwenkuo / deep-learning-with-keras-notebooks</a>]<br>
+Jupyter notebooks for using &amp; learning Keras</p>
+</li>
+</ul>
+<h2 id="mxnet"><a class="markdownIt-Anchor" href="#mxnet"></a> MXnet</h2>
+<ul>
+<li>[<a href="https://github.com/dmlc/gluon-cv" target="_blank" rel="noopener">dmlc / gluon-cv</a>]<br>
+Gluon CV Toolkit</li>
+</ul>
+<h2 id="fastai"><a class="markdownIt-Anchor" href="#fastai"></a> fastai</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/fastai/courses" target="_blank" rel="noopener">fastai / courses</a>]<br>
+<a href="http://fast.ai" target="_blank" rel="noopener">fast.ai</a> Courses</p>
+</li>
+<li>
+<p>[<a href="https://github.com/fastai/fastai" target="_blank" rel="noopener">fastai / fastai</a>]<br>
+The fastai deep learning library, plus lessons and tutorials</p>
+</li>
+</ul>
+<h2 id="tools"><a class="markdownIt-Anchor" href="#tools"></a> Tools</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/waleedka/hiddenlayer" target="_blank" rel="noopener">waleedka / hiddenlayer</a>]<br>
+Neural network graphs and training metrics for PyTorch, Tensorflow, and Keras.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/lutzroeder/netron" target="_blank" rel="noopener">lutzroeder / netron</a>]<br>
+Visualizer for deep learning and machine learning models</p>
+</li>
+<li>
+<p>[<a href="https://github.com/lanpa/tensorboardX" target="_blank" rel="noopener">lanpa / tensorboardX</a>]<br>
+tensorboard for pytorch (and chainer, mxnet, numpy, …)</p>
+</li>
+<li>
+<p>[<a href="https://github.com/marvis/pytorch-caffe" target="_blank" rel="noopener">marvis / pytorch-caffe</a>]<br>
+load caffe prototxt and weights directly in pytorch</p>
+</li>
+<li>
+<p>[<a href="https://github.com/zhanghang1989/gluoncv-torch" target="_blank" rel="noopener">zhanghang1989 / gluoncv-torch</a>]<br>
+PyTorch API for GluonCV Models</p>
+</li>
+</ul>
+<h1 id="cv"><a class="markdownIt-Anchor" href="#cv"></a> CV</h1>
+<h2 id="classification"><a class="markdownIt-Anchor" href="#classification"></a> Classification</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/ypwhs/dogs_vs_cats" target="_blank" rel="noopener">ypwhs / dogs_vs_cats</a>]<br>
+猫狗大战</p>
+</li>
+<li>
+<p>[<a href="https://github.com/weiaicunzai/awesome-image-classification" target="_blank" rel="noopener">weiaicunzai / awesome-image-classification</a>]<br>
+A curated list of deep learning image classification papers and codes</p>
+</li>
+<li>
+<p>[<a href="https://github.com/chenyuntc/scene-baseline" target="_blank" rel="noopener">chenyuntc / scene-baseline</a>]<br>
+PyTorch baseline for AI challenger Scene classification</p>
+</li>
+<li>
+<p>[<a href="https://github.com/bearpaw/pytorch-classification" target="_blank" rel="noopener">bearpaw / pytorch-classification</a>]<br>
+Classification with PyTorch.</p>
+</li>
+</ul>
+<h2 id="detectionsegment"><a class="markdownIt-Anchor" href="#detectionsegment"></a> Detection&amp;Segment</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/multimodallearning/pytorch-mask-rcnn" target="_blank" rel="noopener">multimodallearning / pytorch-mask-rcnn</a>]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/facebookresearch/maskrcnn-benchmark" target="_blank" rel="noopener">facebookresearch / maskrcnn-benchmark</a>]<br>
+Fast, modular reference implementation of Instance Segmentation and Object Detection algorithms in PyTorch.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/wannabeOG/Mask-RCNN" target="_blank" rel="noopener">wannabeOG / Mask-RCNN</a>]<br>
+A PyTorch implementation of the architecture of Mask RCNN, serves as an introduction to working with PyTorch</p>
+</li>
+<li>
+<p>[<a href="https://github.com/warmspringwinds/pytorch-segmentation-detection" target="_blank" rel="noopener">warmspringwinds / pytorch-segmentation-detection</a>]<br>
+Image Segmentation and Object Detection in Pytorch</p>
+</li>
+</ul>
+<h3 id="detection"><a class="markdownIt-Anchor" href="#detection"></a> Detection</h3>
+<ul>
+<li>
+<p>[<a href="https://github.com/hoya012/deep_learning_object_detection" target="_blank" rel="noopener">hoya012 / deep_learning_object_detection</a>]<br>
+A paper list of object detection using deep learning.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ddlee-cn/Obj_Det_Progress_Tracker" target="_blank" rel="noopener">ddlee-cn / Obj_Det_Progress_Tracker</a>]<br>
+Object Detection Progress Tracker</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amdegroot/ssd.pytorch" target="_blank" rel="noopener">amdegroot / ssd.pytorch</a>]<br>
+A PyTorch Implementation of Single Shot MultiBox Detector</p>
+</li>
+<li>
+<p>[<a href="https://github.com/princeton-vl/CornerNet" target="_blank" rel="noopener">princeton-vl / CornerNet</a>]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/lufficc/SSD" target="_blank" rel="noopener">lufficc / SSD</a>]<br>
+High quality, fast, modular reference implementation of SSD in PyTorch 1.0</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ruotianluo/pytorch-faster-rcnn" target="_blank" rel="noopener">ruotianluo / pytorch-faster-rcnn</a>]<br>
+pytorch1.0 updated. Support cpu test and demo.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Bugdragon/YOLO_v3_PyTorch" target="_blank" rel="noopener">Bugdragon / YOLO_v3_PyTorch</a>]<br>
+使用PyTorch实现基于YOLOv3的目标检测器</p>
+</li>
+<li>
+<p>[<a href="https://github.com/marvis/pytorch-yolo3" target="_blank" rel="noopener">marvis / pytorch-yolo3</a>]<br>
+pytorch yolo3</p>
+</li>
+<li>
+<p>[<a href="https://github.com/chenyuntc/simple-faster-rcnn-pytorch" target="_blank" rel="noopener">chenyuntc / simple-faster-rcnn-pytorch</a>]<br>
+A simplified implemention of Faster R-CNN that replicate performance from origin paper</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amusi/awesome-object-detection" target="_blank" rel="noopener">amusi / awesome-object-detection</a>]<br>
+Awesome Object Detection based on handong1587 github: <a href="https://handong1587.github.io/deep_learning/2015/10/09/object-detection.html" target="_blank" rel="noopener">https://handong1587.github.io/deep_learning/2015/10/09/object-detection.html</a></p>
+</li>
+<li>
+<p>[<a href="https://github.com/pypancho/YOLOv2_Jupyter_Notebook" target="_blank" rel="noopener">pypancho / YOLOv2_Jupyter_Notebook</a>]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ayooshkathuria/pytorch-yolo-v3" target="_blank" rel="noopener">ayooshkathuria / pytorch-yolo-v3</a>]<br>
+A PyTorch implementation of the YOLO v3 object detection algorithm</p>
+</li>
+</ul>
+<h2 id="face"><a class="markdownIt-Anchor" href="#face"></a> Face</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/TreB1eN/InsightFace_Pytorch" target="_blank" rel="noopener">TreB1eN / InsightFace_Pytorch</a>]<br>
+Pytorch0.4.1 codes for InsightFace</p>
+</li>
+<li>
+<p>[<a href="https://github.com/kuaikuaikim/DFace" target="_blank" rel="noopener">kuaikuaikim / DFace</a>]<br>
+Deep learning face detection and recognition, implemented by pytorch. (pytorch实现的人脸检测和人脸识别)</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ageitgey/face_recognition" target="_blank" rel="noopener">ageitgey / face_recognition</a>]<br>
+The world’s simplest facial recognition api for Python and the command line</p>
+</li>
+<li>
+<p>[<a href="https://github.com/TropComplique/mtcnn-pytorch" target="_blank" rel="noopener">TropComplique / mtcnn-pytorch</a>]<br>
+Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks</p>
+</li>
+<li>
+<p>[<a href="https://github.com/cmusatyalab/openface" target="_blank" rel="noopener">cmusatyalab / openface</a>]<br>
+Face recognition with deep neural networks.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/1adrianb/face-alignment" target="_blank" rel="noopener">1adrianb / face-alignment</a>]<br>
+🔥 2D and 3D Face alignment library build using pytorch</p>
+</li>
+<li>
+<p>[<a href="https://github.com/wy1iu/sphereface" target="_blank" rel="noopener">wy1iu / sphereface</a>]<br>
+Implementation for &lt;SphereFace: Deep Hypersphere Embedding for Face Recognition&gt; in CVPR’17.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/clcarwin/sphereface_pytorch" target="_blank" rel="noopener">clcarwin / sphereface_pytorch</a>]<br>
+A PyTorch Implementation of SphereFace.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/thnkim/OpenFacePytorch" target="_blank" rel="noopener">thnkim / OpenFacePytorch</a>]<br>
+PyTorch module to use OpenFace’s nn4.small2.v1.t7 model</p>
+</li>
+<li>
+<p>[<a href="https://github.com/deepinsight/insightface" target="_blank" rel="noopener">deepinsight / insightface</a>]<br>
+Face Recognition Project on MXNet</p>
+</li>
+<li>
+<p>[<a href="https://github.com/harveyslash/Facial-Similarity-with-Siamese-Networks-in-Pytorch" target="_blank" rel="noopener">harveyslash / Facial-Similarity-with-Siamese-Networks-in-Pytorch</a>]<br>
+Implementing Siamese networks with a contrastive loss for similarity learning</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jerry1900/faceRecognition" target="_blank" rel="noopener">jerry1900 / faceRecognition</a>]<br>
+利用OpenCV、CNN进行人脸识别</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Team-Neighborhood/awesome-face-detection" target="_blank" rel="noopener">Team-Neighborhood / awesome-face-detection</a>]<br>
+Compare with various detectors - dlib, ocv, ocv-dnn, mtcnn-pytorch, face_recognition</p>
+</li>
+</ul>
+<h2 id="ocr"><a class="markdownIt-Anchor" href="#ocr"></a> OCR</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/Walleclipse/ChineseAddress_OCR" target="_blank" rel="noopener">Walleclipse / ChineseAddress_OCR</a>]<br>
+Photographing Chinese-Address OCR implemented using CTPN+CTC+Address Correction. 拍照文档中文地址文字识别。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/JinpengLI/deep_ocr" target="_blank" rel="noopener">JinpengLI / deep_ocr</a>]<br>
+make a better chinese character recognition OCR than tesseract</p>
+</li>
+<li>
+<p>[<a href="https://github.com/A-bone1/Attention-ocr-Chinese-Version" target="_blank" rel="noopener">A-bone1 / Attention-ocr-Chinese-Version</a>]<br>
+Attention OCR Based On Tensorflow</p>
+</li>
+<li>
+<p>[<a href="https://github.com/eragonruan/text-detection-ctpn" target="_blank" rel="noopener">eragonruan / text-detection-ctpn</a>]<br>
+text detection mainly based on ctpn model in tensorflow, id card detect, connectionist text proposal network</p>
+</li>
+<li>
+<p>[<a href="https://github.com/xiaomaxiao/keras_ocr" target="_blank" rel="noopener">xiaomaxiao / keras_ocr</a>]<br>
+用keras实现OCR定位、识别</p>
+</li>
+<li>
+<p>[<a href="https://github.com/xiaofengShi/CHINESE-OCR" target="_blank" rel="noopener">xiaofengShi / CHINESE-OCR</a>]<br>
+[python3.6] 运用tf实现自然场景文字检测,keras/pytorch实现ctpn+crnn+ctc实现不定长场景文字OCR识别</p>
+</li>
+<li>
+<p>[<a href="https://github.com/YCG09/chinese_ocr" target="_blank" rel="noopener">YCG09 / chinese_ocr</a>]<br>
+CTPN + DenseNet + CTC based end-to-end Chinese OCR implemented using tensorflow and keras</p>
+</li>
+<li>
+<p>[<a href="https://github.com/chineseocr/chineseocr" target="_blank" rel="noopener">chineseocr / chineseocr</a>]<br>
+yolo3+ocr</p>
+</li>
+</ul>
+<h2 id="normalization"><a class="markdownIt-Anchor" href="#normalization"></a> Normalization</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/stes/fan-pytorch" target="_blank" rel="noopener">stes / fan-pytorch</a>]<br>
+Implementation of Feature Aware Normalization in PyTorch</p>
+</li>
+<li>
+<p>[<a href="https://github.com/stes/fan" target="_blank" rel="noopener">stes / fan</a>]<br>
+Feature Aware Normalization - Code for “Context-based Normalization of Histological Stains using Deep Convolutional Features”</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jrosebr1/color_transfer" target="_blank" rel="noopener">jrosebr1 / color_transfer</a>]<br>
+Performs color transfer between two images. Loosely based on the “Color Transfer between Images” paper by Reinhard et al., 2001.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Peter554/StainTools" target="_blank" rel="noopener">Peter554 / StainTools</a>]<br>
+Tools for tissue image stain normalization and augmentation [python, scientific]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/FarhadZanjani/Histopathology-Stain-Color-Normalization" target="_blank" rel="noopener">FarhadZanjani / Histopathology-Stain-Color-Normalization</a>]<br>
+Deep Convolutional Gaussian Mixture Model for Stain-Color Normalization in Histopathological H&amp;E Images</p>
+</li>
+<li>
+<p>[<a href="https://github.com/hanwen0529/StaNoSA" target="_blank" rel="noopener">hanwen0529 / StaNoSA</a>]<br>
+[Paper Implementation]Stain Normalization using Sparse AutoEncoders (StaNoSA): Application to digital pathology.(no work)</p>
+</li>
+<li>
+<p>[<a href="https://github.com/francescociompi/stain-normalization-isbi-2017" target="_blank" rel="noopener">francescociompi / stain-normalization-isbi-2017</a>]<br>
+Stain normalization parameters used in the paper “F. Ciompi et al., The importance of stain normalization in colorectal tissue classification with convolutional networks, ISBI 2017”</p>
+</li>
+<li>
+<p>[<a href="https://github.com/joneww/wsics" target="_blank" rel="noopener">joneww / wsics</a>]</p>
+</li>
+<li>
+<p>[<a href="https://github.com/abhishekvahadane/CodeRelease_ColorNormalization" target="_blank" rel="noopener">abhishekvahadane / CodeRelease_ColorNormalization</a>]<br>
+This is the MATLAB code for stain separation and color normalization in computational pathology (histopathological images)</p>
+</li>
+</ul>
+<h2 id="gan"><a class="markdownIt-Anchor" href="#gan"></a> GAN</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/yunjey/stargan" target="_blank" rel="noopener">yunjey / stargan</a>]<br>
+Official PyTorch Implementation of StarGAN - CVPR 2018</p>
+</li>
+<li>
+<p>[<a href="https://github.com/nightrome/really-awesome-gan" target="_blank" rel="noopener">nightrome / really-awesome-gan</a>]<br>
+A list of papers on Generative Adversarial (Neural) Networks</p>
+</li>
+<li>
+<p>[<a href="https://github.com/eriklindernoren/Keras-GAN" target="_blank" rel="noopener">eriklindernoren / Keras-GAN</a>]<br>
+Keras implementations of Generative Adversarial Networks.</p>
+</li>
+</ul>
+<h2 id="opencv"><a class="markdownIt-Anchor" href="#opencv"></a> OpenCV</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/ex2tron/OpenCV-Python-Tutorial" target="_blank" rel="noopener">ex2tron / OpenCV-Python-Tutorial</a>]<br>
+OpenCV-Python图像处理教程</p>
+</li>
+<li>
+<p>[<a href="https://github.com/mbeyeler/opencv-machine-learning" target="_blank" rel="noopener">mbeyeler / opencv-machine-learning</a>]<br>
+M. Beyeler (2017). Machine Learning for OpenCV: Intelligent image processing with Python. Packt Publishing Ltd., ISBN 978-178398028-4.</p>
+</li>
+</ul>
+<h2 id="others-2"><a class="markdownIt-Anchor" href="#others-2"></a> others</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/cs231n/cs231n.github.io" target="_blank" rel="noopener">cs231n / cs231n.github.io</a>]<br>
+Public facing notes page</p>
+</li>
+<li>
+<p>[<a href="https://github.com/sharedeeply/cs231n-camp" target="_blank" rel="noopener">sharedeeply / cs231n-camp</a>]<br>
+cs231n training camp</p>
+</li>
+<li>
+<p>[<a href="https://github.com/cthorey/CS231" target="_blank" rel="noopener">cthorey / CS231</a>]<br>
+My corrections for the Standford class assingments CS231n - Convolutional Neural Networks for Visual Recognition</p>
+</li>
+<li>
+<p>[<a href="https://github.com/willard-yuan/pcv-book-code" target="_blank" rel="noopener">willard-yuan / pcv-book-code</a>]<br>
+📖Python计算机视觉中译本实例代码</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jbhuang0604/awesome-computer-vision" target="_blank" rel="noopener">jbhuang0604 / awesome-computer-vision</a>]<br>
+A curated list of awesome computer vision resources</p>
+</li>
+<li>
+<p>[<a href="https://github.com/cocodataset/cocoapi" target="_blank" rel="noopener">cocodataset / cocoapi</a>]<br>
+COCO API - Dataset @ <a href="http://cocodataset.org/" target="_blank" rel="noopener">http://cocodataset.org/</a></p>
+</li>
+</ul>
+<h1 id="code"><a class="markdownIt-Anchor" href="#code"></a> Code</h1>
+<h2 id="algorithm"><a class="markdownIt-Anchor" href="#algorithm"></a> Algorithm</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/jdneo/vscode-leetcode" target="_blank" rel="noopener">jdneo / vscode-leetcode</a>]<br>
+Solve LeetCode problems in VS Code</p>
+</li>
+<li>
+<p>[<a href="https://github.com/24OI/OI-wiki" target="_blank" rel="noopener">24OI / OI-wiki</a>]<br>
+🌟 Wiki for OI / ICPC. （某大型游戏线上攻略，内含炫酷算术魔法）</p>
+</li>
+<li>
+<p>[<a href="https://github.com/imhuay/Algorithm_for_Interview-Chinese" target="_blank" rel="noopener">imhuay / Algorithm_for_Interview-Chinese</a>]<br>
+Algorithm for Interview（面试算法笔记-中文）</p>
+</li>
+<li>
+<p>[<a href="https://github.com/MisterBooo/LeetCodeAnimation" target="_blank" rel="noopener">MisterBooo / LeetCodeAnimation</a>]<br>
+Demonstrate all the questions on LeetCode in the form of animation.（用动画的形式呈现解LeetCode题目的思路）</p>
+</li>
+<li>
+<p>[<a href="https://github.com/gzwl/leetcode" target="_blank" rel="noopener">gzwl / leetcode</a>]<br>
+The optimum C++ solutions for the leetcode</p>
+</li>
+<li>
+<p>[<a href="https://github.com/apachecn/awesome-algorithm" target="_blank" rel="noopener">apachecn / awesome-algorithm</a>]<br>
+LeetCode, HackRank, 剑指offer, classic algorithm implementation</p>
+</li>
+<li>
+<p>[<a href="https://github.com/guoruibiao/sword-to-offer" target="_blank" rel="noopener">guoruibiao / sword-to-offer</a>]<br>
+剑指Offer原书是用C++实现的，这里本人用Python对其中大部分使用了Python实现。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jimmysuncpt/Algorithms" target="_blank" rel="noopener">jimmysuncpt / Algorithms</a>]<br>
+The codes and my solutions to exercises from the book “Algorithms” (4th edition) by Robert Sedgewick and Kevin Wayne.</p>
+</li>
+</ul>
+<h2 id="comprehensive"><a class="markdownIt-Anchor" href="#comprehensive"></a> Comprehensive</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">ruanyf / jstraining</a>]<br>
+全栈工程师培训材料</p>
+</li>
+<li>
+<p>[<a href="https://github.com/1c7/crash-course-computer-science-chinese" target="_blank" rel="noopener">1c7 / crash-course-computer-science-chinese</a>]<br>
+💻 计算机速成课 | Crash Course 字幕组 (全40集 2018-5-1 精校完成)</p>
+</li>
+<li>
+<p>[<a href="https://github.com/TeamStuQ/skill-map" target="_blank" rel="noopener">TeamStuQ / skill-map</a>]<br>
+程序员技能图谱</p>
+</li>
+<li>
+<p>[<a href="https://github.com/justjavac/free-programming-books-zh_CN" target="_blank" rel="noopener">justjavac / free-programming-books-zh_CN</a>]<br>
+📚 免费的计算机编程类中文书籍，欢迎投稿</p>
+</li>
+<li>
+<p>[<a href="https://github.com/EZLippi/practical-programming-books" target="_blank" rel="noopener">EZLippi / practical-programming-books</a>]<br>
+这里收录比较实用的计算机相关技术书籍，可以在短期之内入门的简单实用教程、一些技术网站以及一些写的比较好的博文，欢迎Fork，你也可以通过Pull Request参与编辑。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/InterviewMap/CS-Interview-Knowledge-Map" target="_blank" rel="noopener">InterviewMap / CS-Interview-Knowledge-Map</a>]<br>
+Build the best interview map. The current content includes JS, network, browser related, performance optimization, security, framework, Git, data structure, algorithm, etc.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amusi/AI-Job-Notes" target="_blank" rel="noopener">amusi / AI-Job-Notes</a>]<br>
+AI算法岗求职攻略（涵盖准备攻略、刷题指南、内推和AI公司清单等资料）</p>
+</li>
+<li>
+<p>[<a href="https://github.com/imhuay/Algorithm_Interview_Notes-Chinese" target="_blank" rel="noopener">imhuay / Algorithm_Interview_Notes-Chinese</a>]<br>
+2018/2019/校招/春招/秋招/算法/机器学习(Machine Learning)/深度学习(Deep Learning)/自然语言处理(NLP)/C/C++/Python/面试笔记</p>
+</li>
+<li>
+<p>[<a href="https://github.com/CyC2018/CS-Notes" target="_blank" rel="noopener">CyC2018 / CS-Notes</a>]<br>
+😋 技术面试必备基础知识</p>
+</li>
+</ul>
+<h2 id="python"><a class="markdownIt-Anchor" href="#python"></a> Python</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/kriadmin/30-seconds-of-python-code" target="_blank" rel="noopener">kriadmin / 30-seconds-of-python-code</a>]<br>
+Python implementation of 30-seconds-of-code</p>
+</li>
+<li>
+<p>[<a href="https://github.com/wonderfulsuccess/weixin_crawler" target="_blank" rel="noopener">wonderfulsuccess / weixin_crawler</a>]<br>
+高效微信公众号历史文章和阅读数据爬虫powered by scrapy 微信公众号爬虫 微信采集 公众号采集</p>
+</li>
+<li>
+<p>[<a href="https://github.com/DIYer22/boxx" target="_blank" rel="noopener">DIYer22 / boxx</a>]<br>
+Tool-box for efficient build and debug in Python. Especially for Scientific Computing and Computer Vision.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/leisurelicht/wtfpython-cn" target="_blank" rel="noopener">leisurelicht / wtfpython-cn</a>]<br>
+wtfpython的中文翻译/施工结束/ 能力有限，欢迎帮我改进翻译</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jackfrued/Python-100-Days" target="_blank" rel="noopener">jackfrued / Python-100-Days</a>]<br>
+Python - 100天从新手到大师</p>
+</li>
+<li>
+<p>[<a href="https://github.com/lijin-THU/notes-python" target="_blank" rel="noopener">lijin-THU / notes-python</a>]<br>
+中文 Python 笔记</p>
+</li>
+<li>
+<p>[<a href="https://github.com/facert/awesome-spider" target="_blank" rel="noopener">facert / awesome-spider</a>]<br>
+爬虫集合</p>
+</li>
+<li>
+<p>[<a href="https://github.com/lt94/MovieHeavens" target="_blank" rel="noopener">lt94 / MovieHeavens</a>]<br>
+🎨 基于Pyqt4|Tkinter的简单电影搜索工具</p>
+</li>
+<li>
+<p>[<a href="https://github.com/Prodesire/Python-Guide-CN" target="_blank" rel="noopener">Prodesire / Python-Guide-CN</a>]<br>
+Python最佳实践指南</p>
+</li>
+<li>
+<p>[<a href="https://github.com/vinta/awesome-python" target="_blank" rel="noopener">vinta / awesome-python</a>]<br>
+A curated list of awesome Python frameworks, libraries, software and resources</p>
+</li>
+<li>
+<p>[[<a href="https://github.com/Jack-Cherish/python-spider" target="_blank" rel="noopener">Jack-Cherish / python-spider</a>]]<br>
+🌈Python3网络爬虫实战：VIP视频破解助手；GEETEST验证码破解；小说、动漫下载；手机APP爬取；财务报表入库；火车票抢票；抖音APP视频下载；百万英雄辅助；网易云音乐下载；B站视频和弹幕下载；京东晒单图下载</p>
+</li>
+<li>
+<p>[<a href="https://github.com/SpiderClub/weibospider" target="_blank" rel="noopener">SpiderClub / weibospider</a>]<br>
+⚡️ A distributed crawler for weibo, building with celery and requests.</p>
+</li>
+</ul>
+<h2 id="cc"><a class="markdownIt-Anchor" href="#cc"></a> C/C++</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/huihut/interview" target="_blank" rel="noopener">huihut / interview</a>]<br>
+📚 C/C++面试基础知识总结</p>
+</li>
+<li>
+<p>[<a href="https://github.com/jobbole/awesome-c-cn" target="_blank" rel="noopener">jobbole / awesome-c-cn</a>]<br>
+C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库等。</p>
+</li>
+</ul>
+<h2 id="java"><a class="markdownIt-Anchor" href="#java"></a> Java</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/skyline75489/Heart-First-JavaWeb" target="_blank" rel="noopener">skyline75489 / Heart-First-JavaWeb</a>]<br>
+一个走心的 Java Web 入门开发教程</p>
+</li>
+<li>
+<p>[<a href="https://github.com/DuGuQiuBai/Java" target="_blank" rel="noopener">DuGuQiuBai / Java</a>]<br>
+27天成为Java大神</p>
+</li>
+</ul>
+<h2 id="js"><a class="markdownIt-Anchor" href="#js"></a> Js</h2>
+<ul>
+<li>[<a href="https://github.com/i5ting/How-to-learn-node-correctly" target="_blank" rel="noopener">i5ting / How-to-learn-node-correctly</a>]<br>
+[全文]如何正确的学习Node.js</li>
+</ul>
+<h1 id="development"><a class="markdownIt-Anchor" href="#development"></a> development</h1>
+<h2 id="ios"><a class="markdownIt-Anchor" href="#ios"></a> iOS</h2>
+<ul>
+<li>[<a href="https://github.com/BohdanOrlov/iOS-Developer-Roadmap" target="_blank" rel="noopener">BohdanOrlov / iOS-Developer-Roadmap</a>]<br>
+Roadmap to becoming an iOS developer in 2018.</li>
+</ul>
+<h2 id="weixin"><a class="markdownIt-Anchor" href="#weixin"></a> weixin</h2>
+<ul>
+<li>[<a href="https://github.com/aben1188/awesome-wepy" target="_blank" rel="noopener">aben1188 / awesome-wepy</a>]<br>
+Awesome for wepy ! 微信小程序组件化开发框架wepy开发资源汇总</li>
+</ul>
+<h2 id="chrome-plugin"><a class="markdownIt-Anchor" href="#chrome-plugin"></a> chrome-plugin</h2>
+<ul>
+<li>[<a href="https://github.com/sxei/chrome-plugin-demo" target="_blank" rel="noopener">sxei / chrome-plugin-demo</a>]<br>
+《Chrome插件开发全攻略》配套完整Demo，欢迎clone体验</li>
+</ul>
+<h2 id="front-end"><a class="markdownIt-Anchor" href="#front-end"></a> front-end</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/tabler/tabler" target="_blank" rel="noopener">tabler / tabler</a>]<br>
+Tabler is free and open-source HTML Dashboard UI Kit built on Bootstrap 4</p>
+</li>
+<li>
+<p>[<a href="https://github.com/JohnsenZhou/Front-End-Checklist" target="_blank" rel="noopener">JohnsenZhou / Front-End-Checklist</a>]<br>
+🗂 一份完美的前端开发清单——专为现代网站和极致的开发者打造</p>
+</li>
+</ul>
+<h1 id="nlp"><a class="markdownIt-Anchor" href="#nlp"></a> NLP</h1>
+<ul>
+<li>
+<p>[<a href="https://github.com/fighting41love/funNLP" target="_blank" rel="noopener">fighting41love / funNLP</a>]<br>
+中英文敏感词、语言检测、中外手机/电话归属地/运营商查询、名字推断性别、手机号抽取、身份证抽取、邮箱抽取、…</p>
+</li>
+<li>
+<p>[<a href="https://github.com/warmheartli/ChatBotCourse" target="_blank" rel="noopener">warmheartli / ChatBotCourse</a>]<br>
+自己动手做聊天机器人教程</p>
+</li>
+</ul>
+<h1 id="tools-2"><a class="markdownIt-Anchor" href="#tools-2"></a> Tools</h1>
+<h2 id="job"><a class="markdownIt-Anchor" href="#job"></a> Job</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/shengxinjing/programmer-job-blacklist" target="_blank" rel="noopener">shengxinjing / programmer-job-blacklist</a>]<br>
+🙈程序员找工作黑名单，换工作和当技术合伙人需谨慎啊 更新有赞</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amusi/AI-Job-Recommend" target="_blank" rel="noopener">amusi / AI-Job-Recommend</a>]<br>
+国内公司人工智能方向（含机器学习、深度学习、计算机视觉和自然语言处理）岗位的招聘信息（含全职、实习和校招）</p>
+</li>
+<li>
+<p>[<a href="https://github.com/amusi/CV-Jobs" target="_blank" rel="noopener">amusi / CV-Jobs</a>]<br>
+国内提供计算机视觉(CV)算法岗位的公司名单，欢迎大家提交issues进行补充</p>
+</li>
+</ul>
+<h2 id="github"><a class="markdownIt-Anchor" href="#github"></a> github</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/phodal/github" target="_blank" rel="noopener">phodal / <strong>github</strong></a>]<br>
+GitHub 漫游指南- a Chinese ebook on how to build a good project on Github. Explore the users’ behavior. Find some thing interest.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/pcottle/learnGitBranching" target="_blank" rel="noopener">pcottle / learnGitBranching</a>]<br>
+An interactive git visualization to challenge and educate!</p>
+</li>
+<li>
+<p>[<a href="https://github.com/521xueweihan/git-tips" target="_blank" rel="noopener">521xueweihan / git-tips</a>]<br>
+Git的奇技淫巧</p>
+</li>
+<li>
+<p>[<a href="https://github.com/tiimgreen/github-cheat-sheet" target="_blank" rel="noopener">tiimgreen / github-cheat-sheet</a>]<br>
+A list of cool features of Git and GitHub.GitHub秘籍</p>
+</li>
+</ul>
+<h2 id="project"><a class="markdownIt-Anchor" href="#project"></a> project</h2>
+<ul>
+<li>[<a href="https://github.com/phodal/new-project-checklist" target="_blank" rel="noopener">phodal / <strong>new-project-checklist</strong></a>]<br>
+🥳🥳🥳🥳 a checklist &amp; tool for new project setup for developer. 新项目检查清单及其工具。</li>
+</ul>
+<h2 id="vscode"><a class="markdownIt-Anchor" href="#vscode"></a> VScode</h2>
+<ul>
+<li>[<a href="https://github.com/formulahendry/awesome-vscode-cn" target="_blank" rel="noopener">formulahendry / awesome-vscode-cn</a>]<br>
+中文版 Awesome VS Code</li>
+</ul>
+<h2 id="kaggle"><a class="markdownIt-Anchor" href="#kaggle"></a> Kaggle</h2>
+<ul>
+<li>[<a href="https://github.com/apachecn/kaggle" target="_blank" rel="noopener">apachecn / kaggle</a>]<br>
+Kaggle 项目实战（教程） = 文档 + 代码 + 视频（欢迎参与）</li>
+</ul>
+<h2 id="others-3"><a class="markdownIt-Anchor" href="#others-3"></a> Others</h2>
+<ul>
+<li>
+<p>[<a href="(https://github.com/agalwood/Motrix)">agalwood / Motrix</a>]<br>
+A full-featured download manager.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/KaTeX/KaTeX" target="_blank" rel="noopener">KaTeX / KaTeX</a>]<br>
+Fast math typesetting for the web.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/dunovank/jupyter-themes" target="_blank" rel="noopener">dunovank / jupyter-themes</a>]<br>
+Custom Jupyter Notebook Themes</p>
+</li>
+<li>
+<p>[<a href="https://github.com/fastai/fastprogress" target="_blank" rel="noopener">fastai / fastprogress</a>]<br>
+Simple and flexible progress bar for Jupyter Notebook and console</p>
+</li>
+<li>
+<p>[<a href="https://github.com/xitu/gold-miner" target="_blank" rel="noopener">xitu / gold-miner</a>]<br>
+🥇掘金翻译计划，可能是世界最大最好的英译中技术社区，最懂读者和译者的翻译平台：</p>
+</li>
+<li>
+<p>[<a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="noopener">robbyrussell / oh-my-zsh</a>]<br>
+A delightful community-driven (with 1,200+ contributors) framework for managing your zsh configuration. Includes 200+ optional plugins (rails, git, OSX, hub, capistrano, brew, ant, php, python, etc…</p>
+</li>
+<li>
+<p>[<a href="https://github.com/XX-net/XX-Net" target="_blank" rel="noopener">XX-net / XX-Net</a>]<br>
+a web proxy tool</p>
+</li>
+<li>
+<p>[<a href="https://github.com/nvbn/thefuck" target="_blank" rel="noopener">nvbn / thefuck</a>]<br>
+Magnificent app which corrects your previous console command.</p>
+</li>
+<li>
+<p>[<a href="https://github.com/dawnlabs/carbon" target="_blank" rel="noopener">dawnlabs / carbon</a>]<br>
+🎨 Create and share beautiful images of your source code</p>
+</li>
+</ul>
+<h2 id="just-fun"><a class="markdownIt-Anchor" href="#just-fun"></a> Just Fun</h2>
+<ul>
+<li>
+<p>[<a href="https://github.com/yangyangwithgnu/hardseed" target="_blank" rel="noopener">yangyangwithgnu / hardseed</a>]<br>
+SEX IS ZERO (0), so, who wanna be the ONE (1), aha?</p>
+</li>
+<li>
+<p>[<a href="https://github.com/ruanyf/weekly" target="_blank" rel="noopener">ruanyf / weekly</a>]<br>
+技术分享周刊，每周五发布</p>
+</li>
+<li>
+<p>[<a href="https://github.com/GitHubDaily/GitHubDaily" target="_blank" rel="noopener">GitHubDaily / GitHubDaily</a>]<br>
+GitHubDaily 分享内容定期整理与分类。欢迎推荐、自荐项目，让更多人知道你的项目。</p>
+</li>
+<li>
+<p>[<a href="https://github.com/wizicer/FinancialSupportForOpenSource" target="_blank" rel="noopener">wizicer / FinancialSupportForOpenSource</a>]<br>
+开源项目挣钱实用手册</p>
+</li>
+<li>
+<p>[<a href="https://github.com/hzlzh/Best-App" target="_blank" rel="noopener">hzlzh / Best-App</a>]<br>
+收集&amp;推荐优秀的 Apps/硬件/技巧/周边等</p>
+</li>
+<li>
+<p>[<a href="https://github.com/1c7/chinese-independent-developer" target="_blank" rel="noopener">1c7 / chinese-independent-developer</a>]<br>
+👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 – 分享大家都在做什么</p>
+</li>
+<li>
+<p>[<a href="https://github.com/niezhiyang/open_source_team" target="_blank" rel="noopener">niezhiyang / open_source_team</a>]<br>
+国内顶尖团队的开源地址</p>
+</li>
+<li>
+<p>[<a href="https://github.com/byoungd/English-level-up-tips-for-Chinese" target="_blank" rel="noopener">byoungd / English-level-up-tips-for-Chinese</a>]<br>
+可能是让你受益匪浅的英语进阶指南</p>
+</li>
+</ul>
+</div></article><div class="post-meta__tag-list"></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/02/11/评价指标-分类（识别）模型篇/"><span>评价指标--分类（识别）网络篇</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4gy1ftgcxsy69qj22bc1jknpg.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2019 By JunDa Ren (Richard Ren)</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.0"></script><script src="/js/fancybox.js?version=1.6.0"></script><script src="/js/sidebar.js?version=1.6.0"></script><script src="/js/copy.js?version=1.6.0"></script><script src="/js/fireworks.js?version=1.6.0"></script><script src="/js/transition.js?version=1.6.0"></script><script src="/js/scroll.js?version=1.6.0"></script><script src="/js/head.js?version=1.6.0"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
