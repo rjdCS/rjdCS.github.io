@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="【动手深度学习笔记】01-1数据操作"><meta name="keywords" content="学习笔记,深度学习,mxnet"><meta name="author" content="JunDa Ren (Richard Ren)"><meta name="copyright" content="JunDa Ren (Richard Ren)"><title>【动手深度学习笔记】01-1数据操作 | RJD's Blog</title><link rel="shortcut icon" href="/r-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.6.0"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据操作"><span class="toc-number">1.</span> <span class="toc-text"> 数据操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建ndarray"><span class="toc-number">1.1.</span> <span class="toc-text"> 创建NDArray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算"><span class="toc-number">1.2.</span> <span class="toc-text"> 运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#广播机制"><span class="toc-number">1.3.</span> <span class="toc-text"> 广播机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引"><span class="toc-number">1.4.</span> <span class="toc-text"> 索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算的内存开销"><span class="toc-number">1.5.</span> <span class="toc-text"> 运算的内存开销</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ndarray和numpy相互变换"><span class="toc-number">1.6.</span> <span class="toc-text"> NDArray和NumPy相互变换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">1.7.</span> <span class="toc-text"> 小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#练习"><span class="toc-number">1.8.</span> <span class="toc-text"> 练习</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars2.githubusercontent.com/u/8386277?s=460&amp;v=4"></div><div class="author-info__name text-center">JunDa Ren (Richard Ren)</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">20</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">25</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">15</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4gy1ftgcxsy69qj22bc1jknpg.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">RJD's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">【动手深度学习笔记】01-1数据操作</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-04-11</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/机器学习与深度学习/">机器学习与深度学习</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2,462</span><span class="post-meta__separator">|</span><span>阅读时长: 10 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="数据操作"><a class="markdownIt-Anchor" href="#数据操作"></a> 数据操作</h1>
+<p>在深度学习中，我们通常会频繁地对数据进行操作。作为动手学深度学习的基础，本节将介绍如何对内存中的数据进行操作。</p>
+<p>在MXNet中，<code>NDArray</code>是一个类，也是存储和变换数据的主要工具。为了简洁，本书常将<code>NDArray</code>实例直接称作<code>NDArray</code>。如果你之前用过NumPy，你会发现<code>NDArray</code>和NumPy的多维数组非常类似。然而，<code>NDArray</code>提供GPU计算和自动求梯度等更多功能，这些使<code>NDArray</code>更加适合深度学习。</p>
+<h2 id="创建ndarray"><a class="markdownIt-Anchor" href="#创建ndarray"></a> 创建<code>NDArray</code></h2>
+<p>我们先介绍<code>NDArray</code>的最基本功能。如果对这里用到的数学操作不是很熟悉，可以参阅附录中<a href="../chapter_appendix/math.md">“数学基础”</a>一节。</p>
+<p>首先从MXNet导入<code>ndarray</code>模块。这里的<code>nd</code>是<code>ndarray</code>的缩写形式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> nd</span><br></pre></td></tr></table></figure>
+<p>然后我们用<code>arange</code>函数创建一个行向量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = nd.arange(<span class="number">12</span>)</span><br><span class="line">x</span><br></pre></td></tr></table></figure>
+<pre><code>[ 0.  1.  2.  3.  4.  5.  6.  7.  8.  9. 10. 11.]
+&lt;NDArray 12 @cpu(0)&gt;
+</code></pre>
+<p>这时返回了一个<code>NDArray</code>实例，其中包含了从0开始的12个连续整数。从打印<code>x</code>时显示的属性<code>&lt;NDArray 12 @cpu(0)&gt;</code>可以看出，它是长度为12的一维数组，且被创建在CPU使用的内存上。其中“@cpu(0)”里的0没有特别的意义，并不代表特定的核。</p>
+<p>我们可以通过<code>shape</code>属性来获取<code>NDArray</code>实例的形状。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.shape</span><br></pre></td></tr></table></figure>
+<pre><code>(12,)
+</code></pre>
+<p>我们也能够通过<code>size</code>属性得到<code>NDArray</code>实例中元素（element）的总数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.size</span><br></pre></td></tr></table></figure>
+<pre><code>12
+</code></pre>
+<p>下面使用<code>reshape</code>函数把行向量<code>x</code>的形状改为(3, 4)，也就是一个3行4列的矩阵，并记作<code>X</code>。除了形状改变之外，<code>X</code>中的元素保持不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X = x.reshape((<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line">X</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 0.  1.  2.  3.]
+ [ 4.  5.  6.  7.]
+ [ 8.  9. 10. 11.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>注意<code>X</code>属性中的形状发生了变化。上面<code>x.reshape((3, 4))</code>也可写成<code>x.reshape((-1, 4))</code>或<code>x.reshape((3, -1))</code>。由于<code>x</code>的元素个数是已知的，这里的<code>-1</code>是能够通过元素个数和其他维度的大小推断出来的。</p>
+<p>接下来，我们创建一个各元素为0，形状为(2, 3, 4)的张量。实际上，之前创建的向量和矩阵都是特殊的张量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nd.zeros((<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>[[[0. 0. 0. 0.]
+  [0. 0. 0. 0.]
+  [0. 0. 0. 0.]]
+
+ [[0. 0. 0. 0.]
+  [0. 0. 0. 0.]
+  [0. 0. 0. 0.]]]
+&lt;NDArray 2x3x4 @cpu(0)&gt;
+</code></pre>
+<p>类似地，我们可以创建各元素为1的张量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nd.ones((<span class="number">3</span>, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>[[1. 1. 1. 1.]
+ [1. 1. 1. 1.]
+ [1. 1. 1. 1.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>我们也可以通过Python的列表（list）指定需要创建的<code>NDArray</code>中每个元素的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Y = nd.array([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br><span class="line">Y</span><br></pre></td></tr></table></figure>
+<pre><code>[[2. 1. 4. 3.]
+ [1. 2. 3. 4.]
+ [4. 3. 2. 1.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>有些情况下，我们需要随机生成<code>NDArray</code>中每个元素的值。下面我们创建一个形状为(3, 4)的<code>NDArray</code>。它的每个元素都随机采样于均值为0、标准差为1的正态分布。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nd.random.normal(<span class="number">0</span>, <span class="number">1</span>, shape=(<span class="number">3</span>, <span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 2.2122064   0.7740038   1.0434405   1.1839255 ]
+ [ 1.8917114  -1.2347414  -1.771029   -0.45138445]
+ [ 0.57938355 -1.856082   -1.9768796  -0.20801921]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<h2 id="运算"><a class="markdownIt-Anchor" href="#运算"></a> 运算</h2>
+<p><code>NDArray</code>支持大量的运算符（operator）。例如，我们可以对之前创建的两个形状为(3, 4)的<code>NDArray</code>做按元素加法。所得结果形状不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X + Y</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 2.  2.  6.  6.]
+ [ 5.  7.  9. 11.]
+ [12. 12. 12. 12.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>按元素乘法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X * Y</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 0.  1.  8.  9.]
+ [ 4. 10. 18. 28.]
+ [32. 27. 20. 11.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>按元素除法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X / Y</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 0.    1.    0.5   1.  ]
+ [ 4.    2.5   2.    1.75]
+ [ 2.    3.    5.   11.  ]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>按元素做指数运算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y.exp()</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 7.389056   2.7182817 54.59815   20.085537 ]
+ [ 2.7182817  7.389056  20.085537  54.59815  ]
+ [54.59815   20.085537   7.389056   2.7182817]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>除了按元素计算外，我们还可以使用<code>dot</code>函数做矩阵乘法。下面将<code>X</code>与<code>Y</code>的转置做矩阵乘法。由于<code>X</code>是3行4列的矩阵，<code>Y</code>转置为4行3列的矩阵，因此两个矩阵相乘得到3行3列的矩阵。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nd.dot(X, Y.T)</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 18.  20.  10.]
+ [ 58.  60.  50.]
+ [ 98. 100.  90.]]
+&lt;NDArray 3x3 @cpu(0)&gt;
+</code></pre>
+<p>我们也可以将多个<code>NDArray</code>连结（concatenate）。下面分别在行上（维度0，即形状中的最左边元素）和列上（维度1，即形状中左起第二个元素）连结两个矩阵。可以看到，输出的第一个<code>NDArray</code>在维度0的长度（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>6</mn></mrow><annotation encoding="application/x-tex">6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span></span></span></span>）为两个输入矩阵在维度0的长度之和（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>+</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3+3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>），而输出的第二个<code>NDArray</code>在维度1的长度（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>8</mn></mrow><annotation encoding="application/x-tex">8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span></span></span></span>）为两个输入矩阵在维度1的长度之和（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn><mo>+</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">4+4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nd.concat(X, Y, dim=<span class="number">0</span>), nd.concat(X, Y, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>(
+ [[ 0.  1.  2.  3.]
+  [ 4.  5.  6.  7.]
+  [ 8.  9. 10. 11.]
+  [ 2.  1.  4.  3.]
+  [ 1.  2.  3.  4.]
+  [ 4.  3.  2.  1.]]
+ &lt;NDArray 6x4 @cpu(0)&gt;, 
+ [[ 0.  1.  2.  3.  2.  1.  4.  3.]
+  [ 4.  5.  6.  7.  1.  2.  3.  4.]
+  [ 8.  9. 10. 11.  4.  3.  2.  1.]]
+ &lt;NDArray 3x8 @cpu(0)&gt;)
+</code></pre>
+<p>使用条件判断式可以得到元素为0或1的新的<code>NDArray</code>。以<code>X == Y</code>为例，如果<code>X</code>和<code>Y</code>在相同位置的条件判断为真（值相等），那么新的<code>NDArray</code>在相同位置的值为1；反之为0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X == Y</span><br></pre></td></tr></table></figure>
+<pre><code>[[0. 1. 0. 1.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>对<code>NDArray</code>中的所有元素求和得到只有一个元素的<code>NDArray</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X.sum()</span><br></pre></td></tr></table></figure>
+<pre><code>[66.]
+&lt;NDArray 1 @cpu(0)&gt;
+</code></pre>
+<p>我们可以通过<code>asscalar</code>函数将结果变换为Python中的标量。下面例子中<code>X</code>的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">L_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>范数结果同上例一样是单元素<code>NDArray</code>，但最后结果变换成了Python中的标量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X.norm().asscalar()</span><br></pre></td></tr></table></figure>
+<pre><code>22.494442
+</code></pre>
+<p>我们也可以把<code>Y.exp()</code>、<code>X.sum()</code>、<code>X.norm()</code>等分别改写为<code>nd.exp(Y)</code>、<code>nd.sum(X)</code>、<code>nd.norm(X)</code>等。</p>
+<h2 id="广播机制"><a class="markdownIt-Anchor" href="#广播机制"></a> 广播机制</h2>
+<p>前面我们看到如何对两个形状相同的<code>NDArray</code>做按元素运算。当对两个形状不同的<code>NDArray</code>按元素运算时，可能会触发广播（broadcasting）机制：先适当复制元素使这两个<code>NDArray</code>形状相同后再按元素运算。</p>
+<p>定义两个<code>NDArray</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A = nd.arange(<span class="number">3</span>).reshape((<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">B = nd.arange(<span class="number">2</span>).reshape((<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">A, B</span><br></pre></td></tr></table></figure>
+<pre><code>(
+ [[0.]
+  [1.]
+  [2.]]
+ &lt;NDArray 3x1 @cpu(0)&gt;, 
+ [[0. 1.]]
+ &lt;NDArray 1x2 @cpu(0)&gt;)
+</code></pre>
+<p>由于<code>A</code>和<code>B</code>分别是3行1列和1行2列的矩阵，如果要计算<code>A + B</code>，那么<code>A</code>中第一列的3个元素被广播（复制）到了第二列，而<code>B</code>中第一行的2个元素被广播（复制）到了第二行和第三行。如此，就可以对2个3行2列的矩阵按元素相加。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A + B</span><br></pre></td></tr></table></figure>
+<pre><code>[[0. 1.]
+ [1. 2.]
+ [2. 3.]]
+&lt;NDArray 3x2 @cpu(0)&gt;
+</code></pre>
+<h2 id="索引"><a class="markdownIt-Anchor" href="#索引"></a> 索引</h2>
+<p>在<code>NDArray</code>中，索引（index）代表了元素的位置。<code>NDArray</code>的索引从0开始逐一递增。例如，一个3行2列的矩阵的行索引分别为0、1和2，列索引分别为0和1。</p>
+<p>在下面的例子中，我们指定了<code>NDArray</code>的行索引截取范围<code>[1:3]</code>。依据左闭右开指定范围的惯例，它截取了矩阵<code>X</code>中行索引为1和2的两行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X[<span class="number">1</span>:<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 4.  5.  6.  7.]
+ [ 8.  9. 10. 11.]]
+&lt;NDArray 2x4 @cpu(0)&gt;
+</code></pre>
+<p>我们可以指定<code>NDArray</code>中需要访问的单个元素的位置，如矩阵中行和列的索引，并为该元素重新赋值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X[<span class="number">1</span>, <span class="number">2</span>] = <span class="number">9</span></span><br><span class="line">X</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 0.  1.  2.  3.]
+ [ 4.  5.  9.  7.]
+ [ 8.  9. 10. 11.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<p>当然，我们也可以截取一部分元素，并为它们重新赋值。在下面的例子中，我们为行索引为1的每一列元素重新赋值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X[<span class="number">1</span>:<span class="number">2</span>, :] = <span class="number">12</span></span><br><span class="line">X</span><br></pre></td></tr></table></figure>
+<pre><code>[[ 0.  1.  2.  3.]
+ [12. 12. 12. 12.]
+ [ 8.  9. 10. 11.]]
+&lt;NDArray 3x4 @cpu(0)&gt;
+</code></pre>
+<h2 id="运算的内存开销"><a class="markdownIt-Anchor" href="#运算的内存开销"></a> 运算的内存开销</h2>
+<p>在前面的例子里我们对每个操作新开内存来存储运算结果。举个例子，即使像<code>Y = X + Y</code>这样的运算，我们也会新开内存，然后将<code>Y</code>指向新内存。为了演示这一点，我们可以使用Python自带的<code>id</code>函数：如果两个实例的ID一致，那么它们所对应的内存地址相同；反之则不同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = id(Y)</span><br><span class="line">Y = Y + X</span><br><span class="line">id(Y) == before</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre>
+<p>如果想指定结果到特定内存，我们可以使用前面介绍的索引来进行替换操作。在下面的例子中，我们先通过<code>zeros_like</code>创建和<code>Y</code>形状相同且元素为0的<code>NDArray</code>，记为<code>Z</code>。接下来，我们把<code>X + Y</code>的结果通过<code>[:]</code>写进<code>Z</code>对应的内存中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Z = Y.zeros_like()</span><br><span class="line">before = id(Z)</span><br><span class="line">Z[:] = X + Y</span><br><span class="line">id(Z) == before</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre>
+<p>实际上，上例中我们还是为<code>X + Y</code>开了临时内存来存储计算结果，再复制到<code>Z</code>对应的内存。如果想避免这个临时内存开销，我们可以使用运算符全名函数中的<code>out</code>参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nd.elemwise_add(X, Y, out=Z)</span><br><span class="line">id(Z) == before</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre>
+<p>如果<code>X</code>的值在之后的程序中不会复用，我们也可以用 <code>X[:] = X + Y</code> 或者 <code>X += Y</code> 来减少运算的内存开销。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before = id(X)</span><br><span class="line">X += Y</span><br><span class="line">id(X) == before</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre>
+<h2 id="ndarray和numpy相互变换"><a class="markdownIt-Anchor" href="#ndarray和numpy相互变换"></a> <code>NDArray</code>和NumPy相互变换</h2>
+<p>我们可以通过<code>array</code>函数和<code>asnumpy</code>函数令数据在<code>NDArray</code>和NumPy格式之间相互变换。下面将NumPy实例变换成<code>NDArray</code>实例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">P = np.ones((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">D = nd.array(P)</span><br><span class="line">D</span><br></pre></td></tr></table></figure>
+<pre><code>[[1. 1. 1.]
+ [1. 1. 1.]]
+&lt;NDArray 2x3 @cpu(0)&gt;
+</code></pre>
+<p>再将<code>NDArray</code>实例变换成NumPy实例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D.asnumpy()</span><br></pre></td></tr></table></figure>
+<pre><code>array([[1., 1., 1.],
+       [1., 1., 1.]], dtype=float32)
+</code></pre>
+<h2 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h2>
+<ul>
+<li><code>NDArray</code>是MXNet中存储和变换数据的主要工具。</li>
+<li>可以轻松地对<code>NDArray</code>创建、运算、指定索引，并与NumPy之间相互变换。</li>
+</ul>
+<h2 id="练习"><a class="markdownIt-Anchor" href="#练习"></a> 练习</h2>
+<ul>
+<li>运行本节中的代码。将本节中条件判断式<code>X == Y</code>改为<code>X &lt; Y</code>或<code>X &gt; Y</code>，看看能够得到什么样的<code>NDArray</code>。</li>
+<li>将广播机制中按元素运算的两个<code>NDArray</code>替换成其他形状，结果是否和预期一样？</li>
+</ul>
+</div></article><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/学习笔记/">学习笔记</a><a class="post-meta__tags" href="/tags/深度学习/">深度学习</a><a class="post-meta__tags" href="/tags/mxnet/">mxnet</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/04/10/【opencv学习笔记】01-图像的IO操作/"><span>【opencv学习笔记】01-图像的IO操作</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4gy1ftgcxsy69qj22bc1jknpg.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2019 By JunDa Ren (Richard Ren)</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.0"></script><script src="/js/fancybox.js?version=1.6.0"></script><script src="/js/sidebar.js?version=1.6.0"></script><script src="/js/copy.js?version=1.6.0"></script><script src="/js/fireworks.js?version=1.6.0"></script><script src="/js/transition.js?version=1.6.0"></script><script src="/js/scroll.js?version=1.6.0"></script><script src="/js/head.js?version=1.6.0"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
