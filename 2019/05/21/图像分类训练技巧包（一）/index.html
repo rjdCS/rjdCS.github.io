@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="图像分类训练技巧包（一）"><meta name="keywords" content=""><meta name="author" content="JunDa Ren (Richard Ren)"><meta name="copyright" content="JunDa Ren (Richard Ren)"><title>图像分类训练技巧包（一） | RJD's Blog</title><link rel="shortcut icon" href="/r-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.6.0"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text"> 摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">2.</span> <span class="toc-text"> 结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#论文概要"><span class="toc-number">3.</span> <span class="toc-text"> 论文概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#baseline训练过程"><span class="toc-number">4.</span> <span class="toc-text"> BaseLine训练过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tricks结构"><span class="toc-number">5.</span> <span class="toc-text"> tricks结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#efficient-training-高效训练"><span class="toc-number">5.1.</span> <span class="toc-text"> Efficient Training 高效训练</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#large-batch-training-大批量训练"><span class="toc-number">5.1.1.</span> <span class="toc-text"> Large-batch training 大批量训练</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#linear-scaling-learning-rate-等比例增大学习率"><span class="toc-number">5.1.1.1.</span> <span class="toc-text"> Linear scaling learning rate   等比例增大学习率</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#learning-rate-warmup-学习率预热"><span class="toc-number">5.1.1.2.</span> <span class="toc-text"> Learning rate warmup 学习率预热</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#zero-γ-零γ初始化"><span class="toc-number">5.1.1.3.</span> <span class="toc-text"> Zero γ 零γ初始化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#no-bias-decay-无偏置衰减"><span class="toc-number">5.1.1.4.</span> <span class="toc-text"> No bias decay 无偏置衰减</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#题外话"><span class="toc-number">5.1.1.5.</span> <span class="toc-text"> 题外话</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#low-precision-training-低精度训练"><span class="toc-number">5.1.2.</span> <span class="toc-text"> Low-precision training 低精度训练</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结果"><span class="toc-number">5.1.3.</span> <span class="toc-text"> 结果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">6.</span> <span class="toc-text"> 参考文献</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars2.githubusercontent.com/u/8386277?s=460&amp;v=4"></div><div class="author-info__name text-center">JunDa Ren (Richard Ren)</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">22</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">15</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret326hj20uu0ejdhs.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">RJD's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">图像分类训练技巧包（一）</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-05-21</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/深度学习需要深度学习/">深度学习需要深度学习</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">2,924</span><span class="post-meta__separator">|</span><span>阅读时长: 9 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p><strong>论文名：</strong> <em><strong>Bag of Tricks for Image Classification with Convolution Neural Networks</strong></em><br>
+<strong>论文地址：</strong> <em><a href="http://arxiv.org/pdf/1812.01187v2.pdf" target="_blank" rel="noopener">http://arxiv.org/pdf/1812.01187v2.pdf</a></em></p>
+<p>这篇文章是亚马逊李沐团队的一篇技巧(tricks)文章，被CVPR2019收录了。虽然题目是讲的Image Classification，但是作者也说了，在目标检测，实例分类等问题上也是有一定的作用的。在此做下笔记，有理解不对的地方还请大佬们勿喷。</p>
+<h2 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
+<p>先看看这篇文章的摘要部分：</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret00h9j20jz0i8juj.jpg" alt=""></p>
+<p>翻译一下：</p>
+<p>【 摘要 】 图像分类研究最近取得的许多进展可以归因于训练过程的改进，例如 数据增强 和 优化方法的改变。然而，大多数改进要么只是作为实现细节被简要地提到，要么 只在源代码中可见 。在本文中，我们将 研究这些改进的一系列集合 ，并通过 ablation study 评估它们对最终模型精度的影响。我们将证明，通过将这些改进组合在一起，我们能够显著改进各种 CNN 模型。例如，我们将 ResNet-50 在 ImageNet 上的 top-1 验证精度从 75.3% 提高到 79.29% 。 我们还将证明，图像分类准确性的提高，可以在目标检测和语义分割等其他应用领域带来更好的迁移学习性能。</p>
+<h2 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h2>
+<p>先上结论：</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret599nj20wf0ifgpm.jpg" alt=""></p>
+<h2 id="论文概要"><a class="markdownIt-Anchor" href="#论文概要"></a> 论文概要</h2>
+<p>1.第 2 节，建立了一个 BaseLine 训练过程，</p>
+<p>2.第 3 节，讨论了一些有效训练的技巧。</p>
+<p>3.第 4 节，回顾了 ResNet 的三个小型模型体系结构调整，并提出了一个新的改进。</p>
+<p>4.第 5 节，讨论另外四个训练过程的改进。</p>
+<p>5.最后，在第六节中研究这些更准确的模型是否有助于迁移学习。</p>
+<h2 id="baseline训练过程"><a class="markdownIt-Anchor" href="#baseline训练过程"></a> BaseLine训练过程</h2>
+<p>不是文章重点，就不细说了。<br>
+作者基于MXnet框架复现了几个网络结构，具体指标如下：</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38restixvj20kr0d8mzk.jpg" alt=""></p>
+<h2 id="tricks结构"><a class="markdownIt-Anchor" href="#tricks结构"></a> tricks结构</h2>
+<p>论文中的tricks部分将从以下几个部分展开：</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38resvaaoj20c90cxglo.jpg" alt=""></p>
+<p>也即：训练速度，网络结构，训练过程优化，迁移学习。</p>
+<h3 id="efficient-training-高效训练"><a class="markdownIt-Anchor" href="#efficient-training-高效训练"></a> Efficient Training 高效训练</h3>
+<p>“硬件，尤其是GPU，近年来发展迅速。因此，许多与性能相关的权衡的最佳选择已经改变。例如，现在在训练期间使用更低的数值精度和更大的批量大小更有效。在本节中，我们将介绍各种能够实现低精度和大批量训练的技术，而不会牺牲模型的准确性。有些技术甚至可以提高准确性和训练速度。”</p>
+<p>2017年，谷歌大脑发布了一篇论文，从论文的名字，我们就可以看出论文是想干嘛。（谷歌爸爸取名字还真是简单粗暴啊）</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38resp5txj20ms07nmy9.jpg" alt=""></p>
+<p>论文中指出，越大的batchsize，能带来越好的结果。<br>
+实验结果(b)进一步显示增大 Batch Size 的好处，观察损失值与参数更新次数的关系。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret3jo6j20eo0awdg8.jpg" alt=""></p>
+<p>其中：<br>
+蓝线代表常见的保持 Batch Size，逐步衰减学习率的方法；<br>
+红线代表与之相反的，保持学习率，相应的上升 Batch Size 的策略；<br>
+绿线模拟真实条件下，上升 Batch Size 达到显存上限的时候，再开始下降学习率的策略。</p>
+<p><strong>显然，增大 Batch Size 的方法中参数更新的次数远少于衰减学习率的策略。</strong></p>
+<p>我们再看一张图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret79ayj20zk07ujuu.jpg" alt=""></p>
+<p>这张图可以清晰的看到，更多的一些细节：</p>
+<ul>
+<li>Batch_size太小的话，模型在200个epoch内并不会收敛。</li>
+<li>随着Batch_size增大，处理相同数据量的速度会越来越快。</li>
+<li>随着Batch_size 增大 ，达到相同精度所需要的epoch数量越来越多。<br>
+以上的观点有一点的矛盾，因为，Batch_size增大到某一时刻，会达到时间上的最优。由于最终精度会陷入不同的局部极值，因此Batch_size在增大到某个时刻，达到最终收敛精度上的最后。</li>
+</ul>
+<p>在训练的时候，我们都知道要将Batch_size参数设置的大一些。但是我们也知道，过大的Batch_size会造成如下的缺点：1.模型收敛过慢。2.占用更大的显存。3.训练结果反而会比较小的Batch_size训练结果更差。那我们有没有什么办法在增大Batch_size的同时又避免这些缺点呢？<br>
+答案当然是有的！<br>
+作者整理了以下方法：</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret6pp7j20bs05y747.jpg" alt=""></p>
+<h4 id="large-batch-training-大批量训练"><a class="markdownIt-Anchor" href="#large-batch-training-大批量训练"></a> Large-batch training 大批量训练</h4>
+<p>盲目增大批大小其实无益于提升训练效果，但却有各种小技巧。 为了能进行大Batch_size的训练，作者对比了四种启发式方法（什么是启发式方法？）</p>
+<h5 id="linear-scaling-learning-rate-等比例增大学习率"><a class="markdownIt-Anchor" href="#linear-scaling-learning-rate-等比例增大学习率"></a> Linear scaling learning rate   等比例增大学习率</h5>
+<p>在小批量SGD中，梯度下降是随机过程，因为在每个批次中样本都是随机选择的。 增加批量大小不会改变随机梯度的期望，但会降低其方差。 换句话说，大批量会降低梯度中的噪声，因此我们可以提高学习率，以便进行调整。换句话说就是， 等比例增大学习率是有用的，<a href="">Accurate, large minibatch SGD: training imagenet in 1 hour.</a>论文中提到，随着批量大小线性增加学习率地 训练 ResNet-50 。<br>
+例如：作者按照何恺明的resnet论文中的内容，选择0.1作为Batch_size为256的初始学习率。当第b个batch时，学习率线性增加到0.1×b/256。</p>
+<h5 id="learning-rate-warmup-学习率预热"><a class="markdownIt-Anchor" href="#learning-rate-warmup-学习率预热"></a> Learning rate warmup 学习率预热</h5>
+<p>这一个技巧是facebook所提出。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret4cvej21bl0q2k2f.jpg" alt=""></p>
+<p>在训练的开始时期，所有的参数都是一个随机值，这样离最终结果差的比较大。使用大的学习率会导致数值的不稳定。可以先采用一个手段使得训练过程稳定下来。这个手段就是“学习率预热”，那么什么是学习率预热？就是在训练最开始的时候，先使用一个小的学习率训练，当训练稳定下来后，再换回原来设定的学习率。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret4626j20ln0b50uc.jpg" alt=""></p>
+<p>facebook则提出一种预热策略，就是从0到设定学习率之间采用线性关系形式。</p>
+<p>m个batches是用来warmup的，我们设置的初始lr为η，那么当第i（1≤i≤m）个batch时，lr为i×η /m。</p>
+<h5 id="zero-γ-零γ初始化"><a class="markdownIt-Anchor" href="#zero-γ-零γ初始化"></a> Zero γ 零γ初始化</h5>
+<p>这一技巧是针对resne所提出，也是Facebook的成果。<br>
+<img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38restw80j21a60olgte.jpg" alt=""><br>
+我们首先回顾一下resnet的结构。我们知道resnet网络由多个残差块组成，每个残差块由几个卷积网络组成。给定输入x，假设block(x)是块中最后一层的输出，则该残余块输出block(x)+x。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38resx3wuj20oa0enmyi.jpg" alt=""></p>
+<p>block块中的最后一层就是一个BN层，具体操作如下：1.求均值。2.求方差。3.归一化。4.缩放和偏移。</p>
+<p>第4步将normalize后的数据再扩展和平移。是为了让神经网络自己去学着使用和修改这个扩展参数γ,和平移参数β, 这样神经网络就能自己慢慢琢磨出前面的normalization操作到底有没有起到优化的作用, 如果没有起到作用, 就使用γ和β来抵消一些normalization的操作。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret1f64j20r90fkdhz.jpg" alt=""></p>
+<p>其中，γ和β都是可训练的参数。通常的做法是在初始化时，将β设为0，但是作者提出在初始化时可以将γ也设为0，也就是上图中的block在初始化时输出为0。这样一来，输出就只有shortcut结构的输出了，也即输出等于输入。</p>
+<p>这样的好处：将所有残差块中的最后一个BN中的初始化设置成0，也即残差块的输出等于输入，相当于 模型的网络层数较少， 可以使得模型在初始化阶段更容易训练。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38reszhnzj20kb0gdgm4.jpg" alt=""></p>
+<h5 id="no-bias-decay-无偏置衰减"><a class="markdownIt-Anchor" href="#no-bias-decay-无偏置衰减"></a> No bias decay 无偏置衰减</h5>
+<p>这一技巧来自腾讯机智团队。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret9q0nj21ag0pvk2b.jpg" alt=""></p>
+<p>Weight Decay是用来解决过拟合问题。 但是一般来说，会对可学习的参数如 weight 和 bias 都会做 decay，通常的做法是使用L2正则化来做。机智团队提出只对卷积层和全连接层的weight做L2中正则化，不对bias，BN层的γ和β进行正则化衰减。</p>
+<h5 id="题外话"><a class="markdownIt-Anchor" href="#题外话"></a> 题外话</h5>
+<p>说个题外话：大家看到之前的几篇文章的标题，很是唬人。什么1小时训练完ImageNet、4分钟训练完ImageNet。那么问题来了，目前最快训练完ImageNet的是谁？</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ressdtij21f40rvgun.jpg" alt=""></p>
+<p>截止到2019年3月，最快训练完ImageNet的是日本公司Fujitsu。值得注意的一点是使用的也是MXNet框架。 在 MXNet 中将很多的 tricks 默认嵌入到了框架之中。这次的训练也采用了很多的这篇文章所提到的一些技巧：</p>
+<p>0.大batch size</p>
+<p>1.由于更新数量较小，研究人员需要采用较高的学习率来加速训练。但是，较高的学习率会导致模型在早期阶段训练不稳定。因此，研究人员采用能够逐步提升学习率的预热技术来稳定(SGD。)</p>
+<p>2.之后会提到的标签平滑（label smoothing）</p>
+<h4 id="low-precision-training-低精度训练"><a class="markdownIt-Anchor" href="#low-precision-training-低精度训练"></a> Low-precision training 低精度训练</h4>
+<p>首先是三种精度的介绍和比较。 神经网络的训练常常使用 32 位 float 类型（ FP32 ）对所有的数据和参数进行 存储和计算。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret8hgzj21650nsjtb.jpg" alt=""></p>
+<p>从TegraX1开始， NVIDIA 的 GPU 将支持原生的 FP16 计算指令，理论上可以获得两倍于FP32的性能，适用于大规模的神经网络或者计算机视觉相关的应用。而从 CUDA 7.5 开始，开发者可以很容易的 直接使用内置的half以及half2 将原有的 FP32 的代码移植为 FP16。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38resunwqj216q0swjuo.jpg" alt=""></p>
+<p>最近几年，nvidia为了加速训练过程，在最新的架构中还增加了特殊的fp16矩阵运算（逻辑）单元，专门用于较低精度的数据类型。2017年5月11日发布的英伟达特斯拉V100，增加了特殊的fp16矩阵运算（逻辑）单元，专门用于较低精度的数据类型。使得新的计算设备提供了低精度的16位float类型（FP16）的计算能力，于是就有了拿FP16来进行计算的方式。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38resumz1j21hc0u0n4i.jpg" alt=""></p>
+<p>于是有人提出能不能全部使用FP16来进行网络的训练，可以是可以，虽然会让训练速度提升，但是结果的精度也会下降呀。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret2ienj211z0eg41a.jpg" alt=""></p>
+<p>百度研究院提出混合精度训练。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38reszcgij217c0n8n10.jpg" alt=""></p>
+<p>在整个训练过程中，用FP16来存储参数、计算梯度，同时留一个32位精度的参数的备份，用于更新参数。</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38resz6lcj21bh0bngpc.jpg" alt=""></p>
+<p>在V100上从FP32切换到FP16后，整体训练速度加快了2到3倍。</p>
+<h4 id="结果"><a class="markdownIt-Anchor" href="#结果"></a> 结果</h4>
+<p>以上五种做法对实验结果的影响如下:</p>
+<p><img src="http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret599nj20wf0ifgpm.jpg" alt=""></p>
+<p>可以看到Zero γ这个技巧是提升比较大的。</p>
+<p>本篇文章主要介绍了论文的概要，大批量训练的一些tricks以及快速训练所使用的低精度训练方法。第二三篇将介绍模型微调，训练调整等技巧。</p>
+<h2 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h2>
+<p><a href="https://blog.csdn.net/diligent_321/article/details/87885418#311_batch_size_33" target="_blank" rel="noopener"> 论文解读-Bag of Tricks for Image Classification with Convolutional Neural Networks </a><br>
+<a href="https://blog.csdn.net/sinat_33487968/article/details/84928643" target="_blank" rel="noopener"> [深度学习] Image Classification图像分类之Bag of Tricks for Image Classification with Convolutional Neural Net </a><br>
+<a href="https://wanglichun.tech/algorithm/GluoncvPaper.html" target="_blank" rel="noopener"> Amazon深度学习工程师总结的分类模型炼丹技巧总结 </a><br>
+<a href="">Accurate, large minibatch SGD: training imagenet in 1 hour</a></p>
+<p><a href=""> Deep residual learn ing for image recognition</a><br>
+<a href=""> Highly scalable deep learning training system with mixed-precision: Training imagenet in  four minutes</a><br>
+<a href="">Mixed precision training</a></p>
+<p><a href="https://blog.csdn.net/ycheng_sjtu/article/details/49804041" target="_blank" rel="noopener">谈谈深度学习中的 Batch_Size</a><br>
+<a href="https://zhuanlan.zhihu.com/p/61246279" target="_blank" rel="noopener">2048块GPU再次加速SGD：富士通74.7秒完成ResNet-50 训练</a></p>
+<hr>
+</div></article><div class="post-meta__tag-list"></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/04/30/英语回溯【002】/"><span>英语回溯【002】Cathay in talks to buy stake in Hong Kong Express Airways from HNA</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret326hj20uu0ejdhs.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2019 By JunDa Ren (Richard Ren)</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.0"></script><script src="/js/fancybox.js?version=1.6.0"></script><script src="/js/sidebar.js?version=1.6.0"></script><script src="/js/copy.js?version=1.6.0"></script><script src="/js/fireworks.js?version=1.6.0"></script><script src="/js/transition.js?version=1.6.0"></script><script src="/js/scroll.js?version=1.6.0"></script><script src="/js/head.js?version=1.6.0"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
