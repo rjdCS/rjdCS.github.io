@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="图像分类训练技巧包（二）"><meta name="keywords" content=""><meta name="author" content="JunDa Ren (Richard Ren)"><meta name="copyright" content="JunDa Ren (Richard Ren)"><title>图像分类训练技巧包（二） | RJD's Blog</title><link rel="shortcut icon" href="/r-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.6.0"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#resnet回顾"><span class="toc-number">1.</span> <span class="toc-text"> Resnet回顾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resnet微调"><span class="toc-number">2.</span> <span class="toc-text"> Resnet微调</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#resnet-b"><span class="toc-number">2.1.</span> <span class="toc-text"> Resnet-B</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#resnet-c"><span class="toc-number">2.2.</span> <span class="toc-text"> Resnet-C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#resnet-d"><span class="toc-number">2.3.</span> <span class="toc-text"> Resnet-D</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">3.</span> <span class="toc-text"> 参考文献</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars2.githubusercontent.com/u/8386277?s=460&amp;v=4"></div><div class="author-info__name text-center">JunDa Ren (Richard Ren)</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">23</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">15</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret326hj20uu0ejdhs.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">RJD's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span></div><div id="post-info"><div id="post-title">图像分类训练技巧包（二）</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-05-21</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/深度学习需要深度学习/">深度学习需要深度学习</a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1,475</span><span class="post-meta__separator">|</span><span>阅读时长: 5 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p><strong>论文名：</strong> <em><strong>Bag of Tricks for Image Classification with Convolution Neural Networks</strong></em><br>
+<strong>论文地址：</strong> <em><a href="http://arxiv.org/pdf/1812.01187v2.pdf" target="_blank" rel="noopener">http://arxiv.org/pdf/1812.01187v2.pdf</a></em></p>
+<p>这篇文章是亚马逊李沐团队的一篇技巧(tricks)文章，被CVPR2019收录了。虽然题目是讲的Image Classification，但是作者也说了，在目标检测，实例分类等问题上也是有一定的作用的。在此做下笔记，有理解不对的地方还请大佬们勿喷。</p>
+<p>这一次将从模型微调开始着手，还没有看上一篇<a href="http://renjunda.top/2019/05/21/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E8%AE%AD%E7%BB%83%E6%8A%80%E5%B7%A7%E5%8C%85%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="noopener">图像分类训练技巧包（一）</a>的同学，可以先去看看。</p>
+<blockquote>
+<p>模型调整是对网络体系结构的微小调整，例如改变特定卷积层的步幅。这种调整通常几乎不会改变计算复杂性，但可能对模型精度产生不可忽略的影响。在本节中，我们将使用ResNet作为示例来研究模型调整的影响。模型调整是对网络体系结构的微小调整，例如改变特定卷积层的步幅。这种调整通常几乎不会改变计算复杂性，但可能对模型精度产生不可忽略的影响。在本节中，我们将使用ResNet作为示例来研究模型调整的影响。</p>
+</blockquote>
+<h2 id="resnet回顾"><a class="markdownIt-Anchor" href="#resnet回顾"></a> Resnet回顾</h2>
+<p>我们首先简单的回顾一下resnet的网络结构。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7v2z7j211n0qvwhs.jpg" alt=""></p>
+<p>ResNet网络由一个输入主干(Input stem)、四个后续阶段(Stage)和一个最终输出层(Output)组成。输入主干有一个 7×7 卷积层，输出通道有 64 个，步长为 2，接着是 3 ×3 最大池化层，步长为 2。从阶段 2 开始，每个阶段从下采样块开始，然后是几个残差块。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7zo5cj215l0p6gpb.jpg" alt=""></p>
+<p>在下采样块中，存在路径 A 和路径 B。路径 A 具有三个卷积，其卷积核大小分别为 1×1、3×3 和 1×1。卷积层1的步幅为 2，用来实现下采样，卷积层2主要用于提取特征，卷积层3完成通道的扩张，称为<strong>瓶颈结构</strong>（目的降低参数的数目，减少计算）。路径 B 使用步长为 2 的 1×1 卷积将输入形状变换为路径 A 的输出形状，因此我们可以对两个路径的输出求和以获得下采样块的输出。</p>
+<p>以上的<strong>输入主干</strong>和<strong>下采样模块</strong>就是这次微调的地方。</p>
+<h2 id="resnet微调"><a class="markdownIt-Anchor" href="#resnet微调"></a> Resnet微调</h2>
+<p>老规矩，先上结论。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p85xgij21040p5420.jpg" alt=""></p>
+<p>Resnet-B是对Resnet下采样模块的改进，Resnet-C是对Resnet输入主干的改进，Resnet-C是在B的基础上再次对下采样模块。</p>
+<h3 id="resnet-b"><a class="markdownIt-Anchor" href="#resnet-b"></a> Resnet-B</h3>
+<p>B结构是在2016年torch组提出来的，在博客中作者提到 “我们也实验了将步长2的下采样从瓶颈模块的第一个1x1卷积移动到了3x3卷积（ResNet-50和ResNet-101）。”但是当时作者也没有解释原因。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7u359j218a0qfdll.jpg" alt=""></p>
+<p>其实很好理解，我们再回到下采样模块中。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p80x3fj21740q8439.jpg" alt=""></p>
+<p>亚马逊的大佬们在论文中指出，“其中第一个卷积用来作为下采样，所以步长设为了2——很明显，核大小1x1、步长2的卷积会造成3/4的信息丢失！”</p>
+<p><strong>为什么1x1,步长为2的卷积层会丢失3/4的信息呢？</strong></p>
+<p>上图！</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7xflzj20y20pkweu.jpg" alt=""></p>
+<p>我们现在有一个1x1的卷积核，要以步长为2，在6x6的特征图上进行卷积操作。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7vwz8j20dz0e6aa0.jpg" alt=""></p>
+<p>这样，就完成了一个卷积层！但是，只能红色的块才能进入下一层进行特征提取操作。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7smuvj215s0p6dg9.jpg" alt=""></p>
+<p>从6x6到3x3，有3/4的信息都被丢掉了。所以就不打算将步长为2的下采样部分交给1x1的卷积，而是交给后一层的3x3的卷积。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7s4efj21bp0mudgh.jpg" alt=""></p>
+<p>这样的话，由于卷积核宽度大于步长，卷积核在移动过程中能够遍历输入特征图上的所有信息（甚至还能有重叠）。</p>
+<h3 id="resnet-c"><a class="markdownIt-Anchor" href="#resnet-c"></a> Resnet-C</h3>
+<p>C结构由谷歌在inception结构中有运用，一句话来说就是“多的小卷积比少的大卷积效果差不错，而且能减少参数，提升效果。”</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7u359j218a0qfdll.jpg" alt="">)</p>
+<p>使用3个3<em>3的卷积来替换resnet的7</em>7的卷积。并且前2个卷积的stride=3,channel=32,最后一个channel=64。如下图：</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7sc2vj20nf0nv763.jpg" alt=""></p>
+<h3 id="resnet-d"><a class="markdownIt-Anchor" href="#resnet-d"></a> Resnet-D</h3>
+<p>D是在B的灵感下改进的。</p>
+<p>调整原因：与ResNet-B相似，下采样的右边通道同样存在着忽略3/4信息的问题，因此进行改进。<strong>既然主通道可以通过修改stride来降低信息损失，那么short-cut为什么不可以呢？</strong></p>
+<p>于是就简单粗暴的做实验，发现将卷积改为sride=1，同时在前面加上一个2x2，步长2的平均池化层来进行下采样，效果理想并且不怎么影响计算效率。</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7wahaj215q0op0w0.jpg" alt=""></p>
+<p>这样，论文中的模型微调就弄完了，上结果！</p>
+<p><img src="https://ws1.sinaimg.cn/large/73c0c3d4ly1g391p7u2d1j20v30p8445.jpg" alt=""></p>
+<p>可以看到，效果D的改进效果是最好的。看到黄字，我们就会有一个疑问：为什么FLOPs上升了13%，可是速度只慢了3%？</p>
+<p>详细情况大家可以看看这一篇文章，我认为说的很清楚了。<a href="http://t.cn/E9frjWO" target="_blank" rel="noopener">传送门：关于FLOPs和实测速度</a></p>
+<p>模型微调就介绍到这里，下一篇文章就是图像分类训练技巧包的最后一篇，将会主要介绍如何在训练过程中优化模型以及全部技巧在目标检测和实例分割中的应用。</p>
+<p>拜拜！</p>
+<h2 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h2>
+<p><a href="https://arxiv.org/pdf/1502.03167v3.pdf" target="_blank" rel="noopener">Batch normalization: Accelerating deep network training by reducing internal covariate shift</a><br>
+<a href="">Deep residual learning for image recognition</a><br>
+<a href="">Training and investigating residual nets</a><br>
+<a href="https://zhuanlan.zhihu.com/p/51870052" target="_blank" rel="noopener">Bag of Tricks for Convolutional Neural Networks</a><br>
+<a href="https://blog.csdn.net/e01528/article/details/84961432#%E5%AD%A6%E4%B9%A0%E7%8E%87%E9%A2%84%E7%83%AD%EF%BC%88warmup%EF%BC%89%2B0.8%25" target="_blank" rel="noopener">训练技巧详解【论文详解含有部分代码】Bag of Tricks for Image Classification with Convolutional Neural Networks</a><br>
+<a href="https://blog.csdn.net/sinat_33487968/article/details/84928643" target="_blank" rel="noopener">深度学习 Image Classification图像分类之Bag of Tricks for Image Classification with Convolutional Neural Net</a><br>
+<a href="https://zhuanlan.zhihu.com/p/53849733" target="_blank" rel="noopener">CNN训练分类任务的优化策略(tricks)</a><br>
+<a href="https://hey-yahei.cn/2019/02/28/bag-of-tricks2/" target="_blank" rel="noopener">深度学习小技巧（二）：模型微调</a></p>
+</div></article><div class="post-meta__tag-list"></div><nav id="pagination"><div class="next-post pull-right"><a href="/2019/05/21/图像分类训练技巧包（一）/"><span>图像分类训练技巧包（一）</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(http://ww1.sinaimg.cn/large/73c0c3d4ly1g38ret326hj20uu0ejdhs.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2019 By JunDa Ren (Richard Ren)</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.0"></script><script src="/js/fancybox.js?version=1.6.0"></script><script src="/js/sidebar.js?version=1.6.0"></script><script src="/js/copy.js?version=1.6.0"></script><script src="/js/fireworks.js?version=1.6.0"></script><script src="/js/transition.js?version=1.6.0"></script><script src="/js/scroll.js?version=1.6.0"></script><script src="/js/head.js?version=1.6.0"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
